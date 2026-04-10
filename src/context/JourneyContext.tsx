@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import {
   OnboardingAnswers,
+  SkinFitAnswers,
   ScentProfile,
   Fragrance,
   matchProfile,
@@ -10,11 +11,13 @@ import {
 
 interface JourneyState {
   answers: Partial<OnboardingAnswers>;
+  skinFit: Partial<SkinFitAnswers>;
   profile: ScentProfile | null;
   recommendations: Fragrance[];
   signatureScent: Fragrance | null;
   wardrobe: Record<string, Fragrance | null>;
   setAnswer: (key: keyof OnboardingAnswers, value: string) => void;
+  setSkinFitAnswer: (key: keyof SkinFitAnswers, value: string) => void;
   computeProfile: () => ScentProfile;
   selectSignature: (fragrance: Fragrance) => void;
   reset: () => void;
@@ -24,6 +27,7 @@ const JourneyContext = createContext<JourneyState | null>(null);
 
 export function JourneyProvider({ children }: { children: ReactNode }) {
   const [answers, setAnswers] = useState<Partial<OnboardingAnswers>>({});
+  const [skinFit, setSkinFit] = useState<Partial<SkinFitAnswers>>({});
   const [profile, setProfile] = useState<ScentProfile | null>(null);
   const [recommendations, setRecommendations] = useState<Fragrance[]>([]);
   const [signatureScent, setSignatureScent] = useState<Fragrance | null>(null);
@@ -31,6 +35,10 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
 
   const setAnswer = (key: keyof OnboardingAnswers, value: string) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const setSkinFitAnswer = (key: keyof SkinFitAnswers, value: string) => {
+    setSkinFit((prev) => ({ ...prev, [key]: value }));
   };
 
   const computeProfile = () => {
@@ -50,6 +58,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
 
   const reset = () => {
     setAnswers({});
+    setSkinFit({});
     setProfile(null);
     setRecommendations([]);
     setSignatureScent(null);
@@ -58,7 +67,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
 
   return (
     <JourneyContext.Provider
-      value={{ answers, profile, recommendations, signatureScent, wardrobe, setAnswer, computeProfile, selectSignature, reset }}
+      value={{ answers, skinFit, profile, recommendations, signatureScent, wardrobe, setAnswer, setSkinFitAnswer, computeProfile, selectSignature, reset }}
     >
       {children}
     </JourneyContext.Provider>
