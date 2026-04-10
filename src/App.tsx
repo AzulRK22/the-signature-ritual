@@ -6,13 +6,14 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { JourneyProvider } from "@/context/JourneyContext";
 import { AnimatePresence } from "framer-motion";
 import Landing from "./pages/Landing";
-import Onboarding from "./pages/Onboarding";
-import Profiling from "./pages/Profiling";
-import ProfileResult from "./pages/ProfileResult";
-import Recommendations from "./pages/Recommendations";
-import Ritual from "./pages/Ritual";
+import SenseMe from "./pages/SenseMe";
+import DecodeMe from "./pages/DecodeMe";
+import ScentMirror from "./pages/ScentMirror";
+import SkinScentFit from "./pages/SkinScentFit";
+import SignatureRitual from "./pages/SignatureRitual";
 import Signature from "./pages/Signature";
-import Wardrobe from "./pages/Wardrobe";
+import AuraCard from "./pages/AuraCard";
+import GrowWithMe from "./pages/GrowWithMe";
 import Refill from "./pages/Refill";
 import NotFound from "./pages/NotFound";
 
@@ -28,13 +29,14 @@ const App = () => (
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/" element={<Landing />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/profiling" element={<Profiling />} />
-              <Route path="/profile-result" element={<ProfileResult />} />
-              <Route path="/recommendations" element={<Recommendations />} />
-              <Route path="/ritual" element={<Ritual />} />
+              <Route path="/sense-me" element={<SenseMe />} />
+              <Route path="/decode-me" element={<DecodeMe />} />
+              <Route path="/scent-mirror" element={<ScentMirror />} />
+              <Route path="/skin-scent-fit" element={<SkinScentFit />} />
+              <Route path="/signature-ritual" element={<SignatureRitual />} />
               <Route path="/signature" element={<Signature />} />
-              <Route path="/wardrobe" element={<Wardrobe />} />
+              <Route path="/aura-card" element={<AuraCard />} />
+              <Route path="/grow-with-me" element={<GrowWithMe />} />
               <Route path="/refill" element={<Refill />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

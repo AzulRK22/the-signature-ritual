@@ -2,21 +2,23 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
+import { computeConfidenceScores } from "@/data/mockData";
 
 export default function Signature() {
   const navigate = useNavigate();
-  const { signatureScent, profile } = useJourney();
+  const { signatureScent, profile, skinFit } = useJourney();
 
   if (!signatureScent || !profile) {
-    navigate("/onboarding");
+    navigate("/sense-me");
     return null;
   }
+
+  const scores = computeConfidenceScores(signatureScent, profile, skinFit);
 
   return (
     <PageTransition>
       <div className="min-h-screen bg-obsidian flex items-center justify-center px-6 py-16">
         <div className="max-w-lg w-full text-center">
-          {/* Glow */}
           <motion.div
             className="relative w-48 h-48 mx-auto mb-10"
             initial={{ scale: 0.8, opacity: 0 }}
@@ -80,15 +82,24 @@ export default function Signature() {
                 <span key={n} className="text-xs px-3 py-1 rounded-full bg-muted text-foreground">{n}</span>
               ))}
             </div>
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-muted-foreground">Scent Identity Match</span>
+            <div className="flex justify-between items-center text-sm mb-4">
+              <span className="text-muted-foreground">Scent Identity</span>
               <span className="text-amber font-display italic">{profile.title}</span>
             </div>
-            <div className="mt-3">
-              <p className="text-xs text-muted-foreground mb-1">Recommendation Confidence</p>
-              <div className="intensity-bar">
-                <div className="intensity-bar-fill" style={{ width: "92%" }} />
-              </div>
+            <div className="space-y-2">
+              {[
+                { label: "Signature Match", value: scores.signature },
+                { label: "Everyday Fit", value: scores.everyday },
+                { label: "Evening Presence", value: scores.evening },
+              ].map((s) => (
+                <div key={s.label} className="flex items-center gap-3">
+                  <span className="text-xs text-muted-foreground w-28">{s.label}</span>
+                  <div className="intensity-bar flex-1">
+                    <div className="intensity-bar-fill" style={{ width: `${s.value}%` }} />
+                  </div>
+                  <span className="text-xs text-amber w-8 text-right">{s.value}%</span>
+                </div>
+              ))}
             </div>
           </motion.div>
 
@@ -96,14 +107,21 @@ export default function Signature() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
-            className="flex flex-col sm:flex-row gap-3 justify-center"
+            className="flex flex-col gap-3"
           >
-            <button onClick={() => navigate("/wardrobe")} className="btn-primary-luxury">
-              Build My Scent Wardrobe
-            </button>
-            <button onClick={() => navigate("/refill")} className="btn-outline-luxury">
-              View Refill Options
-            </button>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button onClick={() => navigate("/aura-card")} className="btn-primary-luxury">
+                Create My Aura Card
+              </button>
+              <button onClick={() => navigate("/grow-with-me")} className="btn-outline-luxury">
+                Build My Scent Wardrobe
+              </button>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <button onClick={() => navigate("/refill")} className="btn-outline-luxury">
+                View Refill Journey
+              </button>
+            </div>
           </motion.div>
         </div>
       </div>

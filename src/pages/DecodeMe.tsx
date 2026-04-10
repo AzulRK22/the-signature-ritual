@@ -5,13 +5,13 @@ import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
 
 const phrases = [
-  "Interpreting your mood…",
+  "Interpreting identity signals…",
   "Translating presence into scent language…",
-  "Mapping emotional resonance…",
-  "Building your Scent Identity Profile…",
+  "Building your fragrance confidence profile…",
+  "Moving from preference to signature…",
 ];
 
-export default function Profiling() {
+export default function DecodeMe() {
   const navigate = useNavigate();
   const { computeProfile } = useJourney();
   const [phraseIndex, setPhraseIndex] = useState(0);
@@ -23,7 +23,7 @@ export default function Profiling() {
           clearInterval(interval);
           setTimeout(() => {
             computeProfile();
-            navigate("/profile-result");
+            navigate("/scent-mirror");
           }, 1200);
           return prev;
         }
@@ -37,7 +37,6 @@ export default function Profiling() {
     <PageTransition>
       <div className="min-h-screen bg-obsidian flex items-center justify-center px-6">
         <div className="text-center max-w-md">
-          {/* Glowing orb */}
           <div className="relative w-40 h-40 mx-auto mb-12">
             <motion.div
               className="absolute inset-0 rounded-full"
@@ -59,7 +58,7 @@ export default function Profiling() {
           </div>
 
           <p className="text-xs tracking-[0.3em] uppercase text-amber font-body mb-6">
-            AI-Guided Analysis
+            Decode Me
           </p>
 
           <AnimatePresence mode="wait">

@@ -3,21 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
-import { Fragrance } from "@/data/mockData";
+import { Fragrance, computeConfidenceScores } from "@/data/mockData";
 
 const scentStories: Record<string, string> = {
   default:
     "Close your eyes. Imagine the warmth of this fragrance on your skin — the first spray, the dry down, the trace you leave behind. Does it feel like you?",
 };
 
-export default function Ritual() {
+export default function SignatureRitual() {
   const navigate = useNavigate();
-  const { recommendations, selectSignature, profile } = useJourney();
+  const { recommendations, selectSignature, profile, skinFit } = useJourney();
   const [selected, setSelected] = useState<Fragrance | null>(null);
-  const [comparing, setComparing] = useState(0);
 
   if (!profile || recommendations.length === 0) {
-    navigate("/onboarding");
+    navigate("/sense-me");
     return null;
   }
 
@@ -48,32 +47,40 @@ export default function Ritual() {
             </p>
           </motion.div>
 
-          {/* Side by side comparison */}
+          {/* Fragrance cards */}
           <div className="grid md:grid-cols-3 gap-4 mb-8">
-            {recommendations.map((frag, i) => (
-              <motion.button
-                key={frag.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + i * 0.1 }}
-                onClick={() => {
-                  setComparing(i);
-                  setSelected(frag);
-                }}
-                className={`selection-card text-left ${selected?.id === frag.id ? "selected" : ""}`}
-              >
-                <div
-                  className="w-full h-1 rounded-full mb-3"
-                  style={{ background: `linear-gradient(90deg, hsl(${frag.color}), hsl(${frag.color} / 0.3))` }}
-                />
-                <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-body">{frag.brand}</p>
-                <p className="font-display text-xl text-foreground">{frag.name}</p>
-                <p className="text-xs text-muted-foreground mt-1">{frag.scentFamily}</p>
-              </motion.button>
-            ))}
+            {recommendations.map((frag, i) => {
+              const scores = computeConfidenceScores(frag, profile, skinFit);
+              return (
+                <motion.button
+                  key={frag.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + i * 0.1 }}
+                  onClick={() => setSelected(frag)}
+                  className={`selection-card text-left ${selected?.id === frag.id ? "selected" : ""}`}
+                >
+                  <div
+                    className="w-full h-1 rounded-full mb-3"
+                    style={{ background: `linear-gradient(90deg, hsl(${frag.color}), hsl(${frag.color} / 0.3))` }}
+                  />
+                  <p className="text-xs tracking-[0.2em] uppercase text-muted-foreground font-body">{frag.brand}</p>
+                  <p className="font-display text-xl text-foreground">{frag.name}</p>
+                  <p className="text-xs text-muted-foreground mt-1 mb-3">{frag.scentFamily}</p>
+                  {/* Confidence score */}
+                  <div className="flex items-center gap-2">
+                    <div className="intensity-bar flex-1">
+                      <div className="intensity-bar-fill" style={{ width: `${scores.signature}%` }} />
+                    </div>
+                    <span className="text-xs text-amber font-body">{scores.signature}%</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">Signature Match</p>
+                </motion.button>
+              );
+            })}
           </div>
 
-          {/* Deep dive panel */}
+          {/* Deep dive */}
           <AnimatePresence mode="wait">
             {selected && (
               <motion.div
@@ -98,6 +105,10 @@ export default function Ritual() {
                         <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Best For</p>
                         <p className="text-sm text-foreground">{selected.bestMoment}</p>
                       </div>
+                      <div>
+                        <p className="text-xs tracking-widest uppercase text-muted-foreground mb-1">Character</p>
+                        <p className="text-sm text-foreground">{selected.emotionalCharacter}</p>
+                      </div>
                     </div>
                   </div>
                   <div>
@@ -117,6 +128,31 @@ export default function Ritual() {
                       </div>
                     </div>
 
+                    {/* Confidence scores */}
+                    <div className="mt-6 space-y-3">
+                      <p className="text-xs tracking-widest uppercase text-muted-foreground">Confidence Scores</p>
+                      {(() => {
+                        const scores = computeConfidenceScores(selected, profile, skinFit);
+                        return (
+                          <>
+                            {[
+                              { label: "Signature Match", value: scores.signature },
+                              { label: "Everyday Fit", value: scores.everyday },
+                              { label: "Evening Presence", value: scores.evening },
+                            ].map((s) => (
+                              <div key={s.label} className="flex items-center gap-3">
+                                <span className="text-xs text-muted-foreground w-28">{s.label}</span>
+                                <div className="intensity-bar flex-1">
+                                  <div className="intensity-bar-fill" style={{ width: `${s.value}%` }} />
+                                </div>
+                                <span className="text-xs text-amber w-8 text-right">{s.value}%</span>
+                              </div>
+                            ))}
+                          </>
+                        );
+                      })()}
+                    </div>
+
                     <div className="mt-6">
                       <p className="text-xs tracking-widest uppercase text-muted-foreground mb-2">Intensity</p>
                       <div className="intensity-bar w-full">
@@ -130,11 +166,7 @@ export default function Ritual() {
           </AnimatePresence>
 
           {selected && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center">
               <button onClick={handleChoose} className="btn-primary-luxury">
                 This Is My Signature
               </button>

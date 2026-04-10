@@ -21,12 +21,11 @@ export default function Refill() {
               Your Next Chapter
             </h1>
             <p className="text-muted-foreground font-body max-w-md mx-auto">
-              Great taste deserves commitment. Stay connected to your signature.
+              Keep your signature alive. Great taste deserves commitment.
             </p>
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6 mb-12">
-            {/* Refill */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="luxury-card">
               <p className="text-xs tracking-widest uppercase text-amber mb-3">Refill Service</p>
               <h3 className="font-display text-2xl text-foreground mb-3">
@@ -38,7 +37,6 @@ export default function Refill() {
               <button className="btn-outline-luxury text-xs">Set Refill Reminder</button>
             </motion.div>
 
-            {/* Loyalty */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="luxury-card">
               <p className="text-xs tracking-widest uppercase text-amber mb-3">Loyalty Journey</p>
               <h3 className="font-display text-2xl text-foreground mb-3">Earn & Evolve</h3>
@@ -51,22 +49,20 @@ export default function Refill() {
               <p className="text-xs text-muted-foreground">Explorer Level · 350 / 1000 points</p>
             </motion.div>
 
-            {/* New discovery */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="luxury-card">
-              <p className="text-xs tracking-widest uppercase text-amber mb-3">New Discovery</p>
+              <p className="text-xs tracking-widest uppercase text-amber mb-3">Next Chapter</p>
               <h3 className="font-display text-2xl text-foreground mb-3">Ready for your next chapter?</h3>
               <p className="text-sm text-muted-foreground font-body mb-4">
                 Your taste evolves. Retake the scent identity journey to discover new dimensions of yourself.
               </p>
               <button
-                onClick={() => { reset(); navigate("/onboarding"); }}
+                onClick={() => { reset(); navigate("/sense-me"); }}
                 className="btn-outline-luxury text-xs"
               >
                 Start New Journey
               </button>
             </motion.div>
 
-            {/* Sustainability */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="luxury-card">
               <p className="text-xs tracking-widest uppercase text-amber mb-3">Intentional Consumption</p>
               <h3 className="font-display text-2xl text-foreground mb-3">Smarter Discovery</h3>

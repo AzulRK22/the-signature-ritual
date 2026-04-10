@@ -6,12 +6,12 @@ import ProgressBar from "@/components/ProgressBar";
 import { useJourney } from "@/context/JourneyContext";
 import { onboardingSteps, OnboardingAnswers } from "@/data/mockData";
 
-export default function Onboarding() {
+export default function SenseMe() {
   const navigate = useNavigate();
   const { answers, setAnswer } = useJourney();
   const [step, setStep] = useState(0);
+  const [sensitivityMode, setSensitivityMode] = useState(false);
   const current = onboardingSteps[step];
-
   const selected = answers[current.key as keyof OnboardingAnswers];
 
   const handleSelect = (value: string) => {
@@ -20,7 +20,7 @@ export default function Onboarding() {
       if (step < onboardingSteps.length - 1) {
         setStep(step + 1);
       } else {
-        navigate("/profiling");
+        navigate("/decode-me");
       }
     }, 400);
   };
@@ -28,18 +28,24 @@ export default function Onboarding() {
   return (
     <PageTransition>
       <div className="min-h-screen bg-obsidian flex flex-col">
-        {/* Header */}
-        <div className="pt-8 pb-4 px-6">
-          <p className="text-center text-xs tracking-[0.3em] uppercase text-muted-foreground font-body">
-            The Signature Experience
+        <div className="pt-8 pb-4 px-6 flex items-center justify-between">
+          <p className="text-xs tracking-[0.3em] uppercase text-muted-foreground font-body">
+            Sense Me
           </p>
+          <button
+            onClick={() => setSensitivityMode(!sensitivityMode)}
+            className={`text-xs font-body px-3 py-1 rounded-full border transition-all duration-300 ${
+              sensitivityMode ? "border-primary/60 text-amber" : "border-border/30 text-muted-foreground"
+            }`}
+          >
+            {sensitivityMode ? "Sensitivity Mode On" : "Sensitivity Mode"}
+          </button>
         </div>
 
         <div className="px-6 py-4">
           <ProgressBar current={step} total={onboardingSteps.length} />
         </div>
 
-        {/* Question */}
         <div className="flex-1 flex flex-col items-center justify-center px-6 pb-12">
           <AnimatePresence mode="wait">
             <motion.div

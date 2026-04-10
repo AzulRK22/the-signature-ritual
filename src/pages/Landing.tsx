@@ -9,11 +9,9 @@ export default function Landing() {
   return (
     <PageTransition>
       <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
-        {/* Background layers */}
         <div className="absolute inset-0 bg-obsidian" />
         <div className="absolute inset-0 gradient-radial-amber opacity-60" />
 
-        {/* Hero image */}
         <motion.div
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: 0.3, scale: 1 }}
@@ -24,7 +22,6 @@ export default function Landing() {
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </motion.div>
 
-        {/* Ambient glow */}
         <motion.div
           className="absolute w-96 h-96 rounded-full animate-glow-pulse"
           style={{ background: "radial-gradient(circle, hsl(36 60% 50% / 0.15), transparent 70%)" }}
@@ -32,7 +29,6 @@ export default function Landing() {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Content */}
         <div className="relative z-10 text-center px-6 max-w-2xl mx-auto">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -69,8 +65,8 @@ export default function Landing() {
             transition={{ delay: 1.1, duration: 0.8 }}
             className="text-sm text-muted-foreground font-body leading-relaxed max-w-md mx-auto mb-10"
           >
-            Discover the scent that feels like you. An AI-guided fragrance journey
-            through identity, confidence, and personal ritual.
+            A luxury fragrance confidence system. Discover the scent that feels like you
+            through identity, intelligent fit, and personal ritual.
           </motion.p>
 
           <motion.div
@@ -79,24 +75,18 @@ export default function Landing() {
             transition={{ delay: 1.4, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <button
-              onClick={() => navigate("/onboarding")}
-              className="btn-primary-luxury"
-            >
+            <button onClick={() => navigate("/sense-me")} className="btn-primary-luxury">
               Begin Your Scent Journey
             </button>
             <button
-              onClick={() => {
-                document.getElementById("concept")?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={() => document.getElementById("concept")?.scrollIntoView({ behavior: "smooth" })}
               className="btn-outline-luxury"
             >
-              Explore the Concept
+              Explore the Experience
             </button>
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5, y: [0, 8, 0] }}
@@ -107,7 +97,6 @@ export default function Landing() {
         </motion.div>
       </div>
 
-      {/* Concept section */}
       <section id="concept" className="bg-obsidian py-24 px-6">
         <div className="max-w-4xl mx-auto">
           <motion.div
@@ -122,28 +111,30 @@ export default function Landing() {
               Less guesswork. More meaning.
             </h2>
             <p className="text-muted-foreground font-body max-w-lg mx-auto">
-              Your identity, translated through fragrance. A luxury discovery experience
+              Your identity, translated through fragrance. A confidence system
               that goes beyond trends to find what truly resonates.
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-4">
             {[
               { title: "Identity", desc: "Know your scent language" },
               { title: "Confidence", desc: "Choose with certainty" },
-              { title: "Ritual", desc: "Experience, don't just buy" },
-              { title: "Wardrobe", desc: "Build a scent collection" },
+              { title: "Scent Mirror", desc: "Visualize your aura" },
+              { title: "Skin Fit", desc: "Intelligent precision" },
+              { title: "Ritual", desc: "Decide with meaning" },
+              { title: "Wardrobe", desc: "Build a collection" },
             ].map((item, i) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.15, duration: 0.6 }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
                 className="luxury-card text-center"
               >
-                <h3 className="font-display text-xl text-foreground mb-2">{item.title}</h3>
-                <p className="text-sm text-muted-foreground font-body">{item.desc}</p>
+                <h3 className="font-display text-lg text-foreground mb-1">{item.title}</h3>
+                <p className="text-xs text-muted-foreground font-body">{item.desc}</p>
               </motion.div>
             ))}
           </div>
