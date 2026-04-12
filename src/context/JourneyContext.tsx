@@ -1,27 +1,22 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import {
+import type {
   OnboardingAnswers,
   SkinFitAnswers,
   ScentProfile,
   Fragrance,
-  matchProfile,
-  getProfileFragrances,
-  buildWardrobe,
-} from "@/data/mockData";
+  JourneyState,
+} from "@/types";
+import { matchProfile, getProfileFragrances, buildWardrobe } from "@/lib/recommendation";
 
-interface JourneyState {
-  answers: Partial<OnboardingAnswers>;
-  skinFit: Partial<SkinFitAnswers>;
-  profile: ScentProfile | null;
-  recommendations: Fragrance[];
-  signatureScent: Fragrance | null;
-  wardrobe: Record<string, Fragrance | null>;
-  setAnswer: (key: keyof OnboardingAnswers, value: string) => void;
-  setSkinFitAnswer: (key: keyof SkinFitAnswers, value: string) => void;
-  computeProfile: () => ScentProfile;
-  selectSignature: (fragrance: Fragrance) => void;
-  reset: () => void;
-}
+/** Pre-filled demo journey for quick walkthroughs */
+const DEMO_ANSWERS: OnboardingAnswers = {
+  mood: "magnetic",
+  style: "night-energy",
+  occasion: "evening",
+  presence: "seductive",
+  intensity: "strong",
+  familiarity: "enthusiast",
+};
 
 const JourneyContext = createContext<JourneyState | null>(null);
 
@@ -65,9 +60,26 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     setWardrobe({});
   };
 
+  /** Quick-fill answers for demo mode, then navigate to decode-me */
+  const startDemo = () => {
+    setAnswers(DEMO_ANSWERS);
+  };
+
   return (
     <JourneyContext.Provider
-      value={{ answers, skinFit, profile, recommendations, signatureScent, wardrobe, setAnswer, setSkinFitAnswer, computeProfile, selectSignature, reset }}
+      value={{
+        answers,
+        skinFit,
+        profile,
+        recommendations,
+        signatureScent,
+        wardrobe,
+        setAnswer,
+        setSkinFitAnswer,
+        computeProfile,
+        selectSignature,
+        reset,
+      }}
     >
       {children}
     </JourneyContext.Provider>
@@ -79,3 +91,5 @@ export function useJourney() {
   if (!ctx) throw new Error("useJourney must be used within JourneyProvider");
   return ctx;
 }
+
+export { DEMO_ANSWERS };
