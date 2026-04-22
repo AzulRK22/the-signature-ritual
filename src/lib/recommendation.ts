@@ -186,6 +186,21 @@ export function computeConfidenceScores(
   return { signature, everyday, evening };
 }
 
+export function getTopConfidenceMatch(
+  recommendations: Fragrance[],
+  profile: ScentProfile,
+  skinFit?: Partial<SkinFitAnswers>,
+): { fragrance: Fragrance; scores: ConfidenceScores } | null {
+  const ranked = recommendations
+    .map((fragrance) => ({
+      fragrance,
+      scores: computeConfidenceScores(fragrance, profile, skinFit),
+    }))
+    .sort((left, right) => right.scores.signature - left.scores.signature);
+
+  return ranked[0] ?? null;
+}
+
 /** Generates editorial fit insight cards */
 export function getFitInsights(
   skinFit: Partial<SkinFitAnswers>,

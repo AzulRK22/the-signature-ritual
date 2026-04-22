@@ -138,6 +138,14 @@ export interface JourneyEmailLead {
   capturedAt: string;
 }
 
+export type SignatureFeedbackSentiment = "yes" | "close" | "not-quite";
+
+export interface SignatureFeedback {
+  sentiment: SignatureFeedbackSentiment;
+  note: string;
+  submittedAt: string;
+}
+
 export interface JourneyState {
   answers: Partial<OnboardingAnswers>;
   skinFit: Partial<SkinFitAnswers>;
@@ -146,6 +154,7 @@ export interface JourneyState {
   signatureScent: Fragrance | null;
   wardrobe: Record<string, Fragrance | null>;
   emailLead: JourneyEmailLead | null;
+  signatureFeedback: SignatureFeedback | null;
   sensitivityMode: boolean;
   setAnswer: (key: keyof OnboardingAnswers, value: string) => void;
   setSkinFitAnswer: (key: keyof SkinFitAnswers, value: string) => void;
@@ -154,6 +163,10 @@ export interface JourneyState {
     address: string,
     source: EmailCaptureSource,
     consent: boolean,
+  ) => void;
+  saveSignatureFeedback: (
+    sentiment: SignatureFeedbackSentiment,
+    note: string,
   ) => void;
   computeProfile: () => ScentProfile;
   selectSignature: (fragrance: Fragrance) => void;

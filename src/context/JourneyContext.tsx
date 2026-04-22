@@ -14,6 +14,8 @@ import type {
   JourneyState,
   JourneyEmailLead,
   EmailCaptureSource,
+  SignatureFeedback,
+  SignatureFeedbackSentiment,
 } from "@/types";
 import {
   matchProfile,
@@ -34,6 +36,7 @@ interface JourneySnapshot {
   signatureScentId: string | null;
   wardrobeIds: Record<string, string | null>;
   emailLead: JourneyEmailLead | null;
+  signatureFeedback: SignatureFeedback | null;
   sensitivityMode: boolean;
 }
 
@@ -89,6 +92,9 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [emailLead, setEmailLead] = useState<JourneyEmailLead | null>(
     initialSnapshot?.emailLead ?? null,
   );
+  const [signatureFeedback, setSignatureFeedback] = useState<SignatureFeedback | null>(
+    initialSnapshot?.signatureFeedback ?? null,
+  );
   const [sensitivityMode, setSensitivityModeState] = useState<boolean>(
     initialSnapshot?.sensitivityMode ?? false,
   );
@@ -120,6 +126,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
         Object.entries(wardrobe).map(([key, fragrance]) => [key, fragrance?.id ?? null]),
       ),
       emailLead,
+      signatureFeedback,
       sensitivityMode,
     };
 
@@ -132,6 +139,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     signatureScent,
     wardrobe,
     emailLead,
+    signatureFeedback,
     sensitivityMode,
   ]);
 
@@ -176,6 +184,25 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const saveSignatureFeedback = useCallback(
+    (sentiment: SignatureFeedbackSentiment, note: string) => {
+      const trimmedNote = note.trim();
+      const nextFeedback: SignatureFeedback = {
+        sentiment,
+        note: trimmedNote,
+        submittedAt: new Date().toISOString(),
+      };
+
+      setSignatureFeedback(nextFeedback);
+      trackEvent("signature_feedback_submitted", {
+        sentiment,
+        has_note: Boolean(trimmedNote),
+        signature_id: signatureScent?.id ?? "unknown",
+      });
+    },
+    [signatureScent],
+  );
+
   const computeProfile = useCallback(() => {
     const fullAnswers = answers as OnboardingAnswers;
     const matchedProfile = matchProfile(fullAnswers, { sensitivityMode });
@@ -213,6 +240,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     setSignatureScent(null);
     setWardrobe({});
     setEmailLead(null);
+    setSignatureFeedback(null);
     setSensitivityModeState(false);
 
     if (typeof window !== "undefined") {
@@ -232,11 +260,13 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
         signatureScent,
         wardrobe,
         emailLead,
+        signatureFeedback,
         sensitivityMode,
         setAnswer,
         setSkinFitAnswer,
         setSensitivityMode,
         saveEmailLead,
+        saveSignatureFeedback,
         computeProfile,
         selectSignature,
         reset,

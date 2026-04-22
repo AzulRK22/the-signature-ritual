@@ -1,12 +1,20 @@
+import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
 import { computeConfidenceScores } from "@/data/mockData";
+import { Textarea } from "@/components/ui/textarea";
+import type { SignatureFeedbackSentiment } from "@/types";
 
 export default function Signature() {
   const navigate = useNavigate();
-  const { signatureScent, profile, skinFit } = useJourney();
+  const { signatureScent, profile, skinFit, signatureFeedback, saveSignatureFeedback } =
+    useJourney();
+  const [sentiment, setSentiment] = useState<SignatureFeedbackSentiment>(
+    signatureFeedback?.sentiment ?? "yes",
+  );
+  const [note, setNote] = useState(signatureFeedback?.note ?? "");
 
   if (!signatureScent || !profile) {
     navigate("/sense-me");
@@ -14,6 +22,11 @@ export default function Signature() {
   }
 
   const scores = computeConfidenceScores(signatureScent, profile, skinFit);
+
+  const handleFeedbackSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    saveSignatureFeedback(sentiment, note);
+  };
 
   return (
     <PageTransition>
@@ -102,6 +115,61 @@ export default function Signature() {
               ))}
             </div>
           </motion.div>
+
+          <motion.form
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.35 }}
+            onSubmit={handleFeedbackSubmit}
+            className="luxury-card text-left mb-8"
+          >
+            <p className="text-xs tracking-[0.3em] uppercase text-amber font-body mb-3">
+              Feedback Loop
+            </p>
+            <h2 className="font-display text-2xl text-foreground mb-2">
+              ¿Acertamos?
+            </h2>
+            <p className="text-sm text-muted-foreground font-body mb-5">
+              Your answer helps us sharpen future recommendations and understand where the confidence model is over- or under-reading your taste.
+            </p>
+
+            <div className="grid sm:grid-cols-3 gap-3 mb-4">
+              {[
+                { value: "yes", label: "Yes, exactly" },
+                { value: "close", label: "Close, but tweakable" },
+                { value: "not-quite", label: "Not really" },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => setSentiment(option.value as SignatureFeedbackSentiment)}
+                  className={`selection-card text-left ${
+                    sentiment === option.value ? "selected" : ""
+                  }`}
+                >
+                  <p className="font-display text-lg text-foreground">{option.label}</p>
+                </button>
+              ))}
+            </div>
+
+            <Textarea
+              value={note}
+              onChange={(event) => setNote(event.target.value)}
+              placeholder="Optional: tell us what felt right, off, too bold, too soft, too generic, or unexpectedly perfect."
+              className="min-h-[110px] bg-background/60 border-border/40 text-foreground mb-4"
+            />
+
+            <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+              <p className="text-xs text-muted-foreground font-body">
+                {signatureFeedback
+                  ? "Feedback saved to this journey."
+                  : "You can submit now and still continue through the experience."}
+              </p>
+              <button type="submit" className="btn-outline-luxury">
+                {signatureFeedback ? "Update Feedback" : "Send Feedback"}
+              </button>
+            </div>
+          </motion.form>
 
           <motion.div
             initial={{ opacity: 0 }}

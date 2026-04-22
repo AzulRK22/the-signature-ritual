@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest";
-import { matchProfile, getProfileFragrances } from "@/lib/recommendation";
+import {
+  matchProfile,
+  getProfileFragrances,
+  getTopConfidenceMatch,
+} from "@/lib/recommendation";
 import { scentProfiles } from "@/data/profiles";
+import { fragrances } from "@/data/fragrances";
 import type { OnboardingAnswers } from "@/types";
 import { getSensitivityAssistOption } from "@/lib/sensitivity";
 
@@ -56,10 +61,10 @@ describe("Recommendation Engine", () => {
     it("should return fragrances for a valid profile", () => {
       const profile = scentProfiles[0];
 
-      const fragrances = getProfileFragrances(profile);
-      expect(fragrances).toBeDefined();
-      expect(Array.isArray(fragrances)).toBe(true);
-      expect(fragrances.length).toBeGreaterThan(0);
+      const profileFragrances = getProfileFragrances(profile);
+      expect(profileFragrances).toBeDefined();
+      expect(Array.isArray(profileFragrances)).toBe(true);
+      expect(profileFragrances.length).toBeGreaterThan(0);
     });
   });
 
@@ -76,6 +81,24 @@ describe("Recommendation Engine", () => {
           occasion: "work",
         }),
       ).toBe("balanced");
+    });
+  });
+
+  describe("getTopConfidenceMatch", () => {
+    it("should return the strongest signature candidate", () => {
+      const profile = scentProfiles[0];
+      const recommendations = profile.fragranceIds
+        .map((id) => fragrances.find((fragrance) => fragrance.id === id))
+        .filter((fragrance) => Boolean(fragrance));
+
+      const topMatch = getTopConfidenceMatch(recommendations, profile, {
+        skinType: "normal",
+        climate: "temperate",
+      });
+
+      expect(topMatch).toBeDefined();
+      expect(topMatch?.fragrance.id).toBeDefined();
+      expect(topMatch?.scores.signature).toBeGreaterThanOrEqual(75);
     });
   });
 });
