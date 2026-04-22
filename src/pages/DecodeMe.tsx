@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 
 const phrases = [
   "Interpreting identity signals…",

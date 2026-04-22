@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 
 const formats = [
   { id: "story", label: "Story", aspect: "aspect-[9/16]", maxW: "max-w-[280px]" },

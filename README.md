@@ -258,7 +258,7 @@ Each fragrance includes: name, brand, scent family, key notes, intensity (1–5)
 
 ### Accessibility
 
-- Enhanced keyboard navigation for interactive components (e.g., FragranceCard with role="button" and aria-pressed).
+- Enhanced keyboard navigation for interactive journey selections and comparison cards.
 - Added descriptive alt texts to images for screen readers.
 - Improved ARIA attributes for better assistive technology support.
 
@@ -275,8 +275,7 @@ Each fragrance includes: name, brand, scent family, key notes, intensity (1–5)
 
 ### Monitoring & Error Tracking
 
-- Configured Sentry for production error monitoring and performance tracking.
-- Includes session replay and tracing for debugging.
+- Integrated Vercel Analytics and Speed Insights for production traffic and performance visibility.
 
 ### Testing Expansion
 
@@ -298,16 +297,19 @@ src/
 │   ├── onboarding.ts         # Onboarding & skin-fit step definitions
 │   └── mockData.ts           # Re-export barrel for compatibility
 ├── lib/
+│   ├── analytics.ts          # Analytics event wrapper
+│   ├── journeyGamification.ts# Progress, badges, loyalty state
 │   ├── recommendation.ts     # Matching, scoring, wardrobe logic
+│   ├── sensitivity.ts        # Sensitivity-mode decision support
 │   └── utils.ts              # Tailwind merge utility
 ├── context/
-│   └── JourneyContext.tsx     # Global journey state + demo mode
+│   ├── journey-context.ts    # Context object
+│   ├── JourneyContext.tsx    # Global journey state provider
+│   └── useJourney.ts         # Journey hook
 ├── components/
 │   ├── PageTransition.tsx     # Animated route wrapper
 │   ├── ProgressBar.tsx        # Step progress indicator
-│   ├── FragranceCard.tsx      # Reusable fragrance display
-│   ├── NavLink.tsx            # Active-aware navigation link
-│   └── ui/                   # shadcn/ui primitives
+│   └── ui/                    # Minimal active UI primitives
 ├── pages/
 │   ├── Landing.tsx            # /
 │   ├── SenseMe.tsx            # /sense-me
@@ -320,7 +322,6 @@ src/
 │   ├── GrowWithMe.tsx         # /grow-with-me
 │   └── Refill.tsx             # /refill
 ├── hooks/
-│   ├── use-mobile.tsx         # Responsive breakpoint hook
 │   └── use-toast.ts           # Toast notification hook
 ├── assets/
 │   └── hero-fragrance.jpg     # Landing hero image

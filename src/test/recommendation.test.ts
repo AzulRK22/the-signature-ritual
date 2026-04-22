@@ -31,11 +31,11 @@ describe("Recommendation Engine", () => {
     it("should handle different mood values", () => {
       const answers: OnboardingAnswers = {
         mood: "calm",
-        style: "day-energy",
-        occasion: "day",
+        style: "clean-minimalist",
+        occasion: "everyday",
         presence: "confident",
-        intensity: "moderate",
-        familiarity: "novice",
+        intensity: "balanced",
+        familiarity: "curious",
       };
 
       const profile = matchProfile(answers);

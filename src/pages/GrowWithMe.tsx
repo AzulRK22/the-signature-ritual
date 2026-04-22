@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { fragrances } from "@/data/fragrances";

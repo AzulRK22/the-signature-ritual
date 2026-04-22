@@ -7,7 +7,7 @@ import PageTransition from "@/components/PageTransition";
 import heroImage from "@/assets/hero-fragrance.jpg";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 import { trackEvent } from "@/lib/analytics";
 
 export default function Landing() {

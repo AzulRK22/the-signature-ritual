@@ -1,9 +1,8 @@
 import {
-  createContext,
-  useContext,
   useState,
   useCallback,
   useEffect,
+  useMemo,
   type ReactNode,
 } from "react";
 import type {
@@ -27,6 +26,7 @@ import { scentProfiles } from "@/data/profiles";
 import { fragrances } from "@/data/fragrances";
 import { trackEvent } from "@/lib/analytics";
 import { getJourneyGamification } from "@/lib/journeyGamification";
+import { JourneyContext } from "@/context/journey-context";
 
 const JOURNEY_STORAGE_KEY = "signature-ritual-journey";
 
@@ -60,8 +60,6 @@ function hydrateJourneySnapshot(): JourneySnapshot | null {
     return null;
   }
 }
-
-const JourneyContext = createContext<JourneyState | null>(null);
 
 export function JourneyProvider({ children }: { children: ReactNode }) {
   const [initialSnapshot] = useState(() => hydrateJourneySnapshot());
@@ -104,16 +102,29 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [sensitivityMode, setSensitivityModeState] = useState<boolean>(
     initialSnapshot?.sensitivityMode ?? false,
   );
-  const { achievements, journeyProgress, loyaltyStatus } = getJourneyGamification({
-    answers,
-    skinFit,
-    profile,
-    signatureScent,
-    wardrobe,
-    auraScales,
-    emailLead,
-    signatureFeedback,
-  });
+  const { achievements, journeyProgress, loyaltyStatus } = useMemo(
+    () =>
+      getJourneyGamification({
+        answers,
+        skinFit,
+        profile,
+        signatureScent,
+        wardrobe,
+        auraScales,
+        emailLead,
+        signatureFeedback,
+      }),
+    [
+      answers,
+      skinFit,
+      profile,
+      signatureScent,
+      wardrobe,
+      auraScales,
+      emailLead,
+      signatureFeedback,
+    ],
+  );
 
   useEffect(() => {
     if (!initialSnapshot) {
@@ -348,10 +359,4 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       {children}
     </JourneyContext.Provider>
   );
-}
-
-export function useJourney() {
-  const ctx = useContext(JourneyContext);
-  if (!ctx) throw new Error("useJourney must be used within JourneyProvider");
-  return ctx;
 }

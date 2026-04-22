@@ -43,6 +43,10 @@ interface MatchProfileOptions {
   sensitivityMode?: boolean;
 }
 
+function getFragranceById(id: string): Fragrance | null {
+  return fragrances.find((fragrance) => fragrance.id === id) ?? null;
+}
+
 // ─── Mood → Profile Mapping ────────────────────────────────────────
 // Each mood value maps to profiles in priority order (index 0 = strongest fit).
 
@@ -121,8 +125,8 @@ export function matchProfile(
 /** Returns the 3 fragrances linked to a profile */
 export function getProfileFragrances(profile: ScentProfile): Fragrance[] {
   return profile.fragranceIds
-    .map((id) => fragrances.find((f) => f.id === id)!)
-    .filter(Boolean);
+    .map((id) => getFragranceById(id))
+    .filter((fragrance): fragrance is Fragrance => Boolean(fragrance));
 }
 
 /**
@@ -139,15 +143,15 @@ export function buildWardrobe(
   signatureId: string,
   _profile: ScentProfile
 ): Record<string, Fragrance | null> {
-  const signature = fragrances.find((f) => f.id === signatureId)!;
-  const rest = fragrances.filter((f) => f.id !== signatureId);
+  const signature = getFragranceById(signatureId);
+  const rest = fragrances.filter((fragrance) => fragrance.id !== signatureId);
 
   return {
     signature,
-    everyday: rest.find((f) => f.wardrobeCategory === "everyday") || null,
-    work: rest.find((f) => f.wardrobeCategory === "work") || null,
-    evening: rest.find((f) => f.wardrobeCategory === "evening") || null,
-    comfort: rest.find((f) => f.wardrobeCategory === "comfort") || null,
+    everyday: rest.find((fragrance) => fragrance.wardrobeCategory === "everyday") ?? null,
+    work: rest.find((fragrance) => fragrance.wardrobeCategory === "work") ?? null,
+    evening: rest.find((fragrance) => fragrance.wardrobeCategory === "evening") ?? null,
+    comfort: rest.find((fragrance) => fragrance.wardrobeCategory === "comfort") ?? null,
   };
 }
 

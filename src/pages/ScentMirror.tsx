@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import PageTransition from "@/components/PageTransition";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 import { Slider } from "@/components/ui/slider";
 
 const scaleLabels = [

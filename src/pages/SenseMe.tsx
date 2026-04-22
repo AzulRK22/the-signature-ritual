@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import ProgressBar from "@/components/ProgressBar";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 import { onboardingSteps, OnboardingAnswers } from "@/data/mockData";
 import { getSensitivityAssistOption } from "@/lib/sensitivity";
 

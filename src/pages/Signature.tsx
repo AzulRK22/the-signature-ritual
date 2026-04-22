@@ -2,7 +2,7 @@ import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
-import { useJourney } from "@/context/JourneyContext";
+import { useJourney } from "@/context/useJourney";
 import { computeConfidenceScores } from "@/data/mockData";
 import { Textarea } from "@/components/ui/textarea";
 import type { SignatureFeedbackSentiment } from "@/types";
