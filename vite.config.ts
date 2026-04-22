@@ -17,66 +17,13 @@ export default defineConfig(({ mode }) => ({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
-    dedupe: ["react", "react-dom", "react/jsx-runtime", "react/jsx-dev-runtime", "@tanstack/react-query", "@tanstack/query-core"],
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (!id.includes("node_modules")) {
-            return;
-          }
-
-          if (
-            id.includes("/react/") ||
-            id.includes("react-dom") ||
-            id.includes("scheduler") ||
-            id.includes("react-router-dom")
-          ) {
-            return "react-vendor";
-          }
-
-          if (id.includes("framer-motion")) {
-            return "motion-vendor";
-          }
-
-          if (
-            id.includes("@radix-ui") ||
-            id.includes("class-variance-authority") ||
-            id.includes("clsx") ||
-            id.includes("tailwind-merge") ||
-            id.includes("sonner") ||
-            id.includes("cmdk") ||
-            id.includes("vaul") ||
-            id.includes("embla-carousel-react")
-          ) {
-            return "ui-vendor";
-          }
-
-          if (
-            id.includes("@tanstack/react-query") ||
-            id.includes("@tanstack/query-core") ||
-            id.includes("zod") ||
-            id.includes("react-hook-form") ||
-            id.includes("@hookform/resolvers")
-          ) {
-            return "data-vendor";
-          }
-
-          if (
-            id.includes("i18next") ||
-            id.includes("react-i18next") ||
-            id.includes("react-helmet-async") ||
-            id.includes("@vercel/analytics") ||
-            id.includes("@vercel/speed-insights") ||
-            id.includes("@sentry/react")
-          ) {
-            return "platform-vendor";
-          }
-
-          return "misc-vendor";
-        },
-      },
-    },
+    dedupe: [
+      "react",
+      "react-dom",
+      "react/jsx-runtime",
+      "react/jsx-dev-runtime",
+      "@tanstack/react-query",
+      "@tanstack/query-core",
+    ],
   },
 }));
