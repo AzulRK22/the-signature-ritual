@@ -9,6 +9,7 @@ import { lazy, Suspense, useEffect } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { useLocation } from "react-router-dom";
 import { trackEvent } from "@/lib/analytics";
 
@@ -62,6 +63,7 @@ const App = () => (
           <JourneyProvider>
             <BrowserRouter>
               <Analytics />
+              <SpeedInsights />
               <JourneyAnalytics />
               <AnimatePresence mode="wait">
                 <Suspense fallback={<div>Loading...</div>}>
