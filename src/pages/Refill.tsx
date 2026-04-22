@@ -1,11 +1,42 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { FormEvent, useState } from "react";
 import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { trackEvent } from "@/lib/analytics";
 
 export default function Refill() {
   const navigate = useNavigate();
-  const { signatureScent, reset } = useJourney();
+  const { signatureScent, reset, emailLead, saveEmailLead } = useJourney();
+  const { toast } = useToast();
+  const [email, setEmail] = useState(emailLead?.address ?? "");
+  const [consent, setConsent] = useState(emailLead?.consent ?? true);
+
+  const handleReminderSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const normalizedEmail = email.trim().toLowerCase();
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(normalizedEmail)) {
+      toast({
+        title: "Add a valid email",
+        description: "That lets us send refill reminders and loyalty follow-ups to the right place.",
+      });
+      return;
+    }
+
+    saveEmailLead(normalizedEmail, "refill", consent);
+    trackEvent("refill_reminder_requested", {
+      signature: signatureScent?.id ?? "unknown",
+      consent,
+    });
+    toast({
+      title: "Refill reminder saved",
+      description: "Your loyalty and refill updates are now attached to this journey.",
+    });
+  };
 
   return (
     <PageTransition>
@@ -34,7 +65,27 @@ export default function Refill() {
               <p className="text-sm text-muted-foreground font-body mb-4">
                 Less waste, more certainty. Schedule a refill when you're ready — never run out of your signature.
               </p>
-              <button className="btn-outline-luxury text-xs">Set Refill Reminder</button>
+              <form onSubmit={handleReminderSubmit} className="space-y-3">
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="name@example.com"
+                  className="bg-background/60 border-border/40 text-foreground"
+                />
+                <label className="flex items-start gap-3 text-xs text-muted-foreground font-body">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(event) => setConsent(event.target.checked)}
+                    className="mt-0.5 h-4 w-4 rounded border-border/50 bg-transparent"
+                  />
+                  <span>Send loyalty reminders, refill nudges, and early-access fragrance drops.</span>
+                </label>
+                <button type="submit" className="btn-outline-luxury text-xs w-full">
+                  {emailLead ? "Update Refill Reminder" : "Set Refill Reminder"}
+                </button>
+              </form>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="luxury-card">

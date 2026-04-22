@@ -1,18 +1,27 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import ProgressBar from "@/components/ProgressBar";
 import { useJourney } from "@/context/JourneyContext";
 import { onboardingSteps, OnboardingAnswers } from "@/data/mockData";
+import { getSensitivityAssistOption } from "@/lib/sensitivity";
+
+function getInitialStep(answers: Partial<OnboardingAnswers>) {
+  const nextIndex = onboardingSteps.findIndex((step) => !answers[step.key]);
+  return nextIndex === -1 ? onboardingSteps.length - 1 : nextIndex;
+}
 
 export default function SenseMe() {
   const navigate = useNavigate();
-  const { answers, setAnswer } = useJourney();
-  const [step, setStep] = useState(0);
-  const [sensitivityMode, setSensitivityMode] = useState(false);
+  const { answers, setAnswer, sensitivityMode, setSensitivityMode } = useJourney();
+  const [step, setStep] = useState(() => getInitialStep(answers));
   const current = onboardingSteps[step];
   const selected = answers[current.key as keyof OnboardingAnswers];
+  const suggestedOption = useMemo(
+    () => getSensitivityAssistOption(current.key as keyof OnboardingAnswers, answers),
+    [answers, current.key],
+  );
 
   const handleSelect = (value: string) => {
     setAnswer(current.key as keyof OnboardingAnswers, value);
@@ -63,6 +72,23 @@ export default function SenseMe() {
                 {current.subtitle}
               </p>
 
+              {sensitivityMode && (
+                <div className="luxury-card text-left mb-6">
+                  <p className="text-xs tracking-[0.25em] uppercase text-amber font-body mb-2">
+                    Sensitivity Guidance
+                  </p>
+                  <p className="text-sm text-muted-foreground font-body mb-4">
+                    We highlight a lower-pressure next choice when you want a steadier path instead of second-guessing every step.
+                  </p>
+                  <button
+                    onClick={() => handleSelect(suggestedOption)}
+                    className="btn-outline-luxury w-full text-xs"
+                  >
+                    Choose My Best Next Step
+                  </button>
+                </div>
+              )}
+
               <div className={`grid gap-3 ${current.options.length <= 3 ? "grid-cols-1 max-w-sm mx-auto" : "grid-cols-2"}`}>
                 {current.options.map((option) => (
                   <motion.button
@@ -71,9 +97,16 @@ export default function SenseMe() {
                     onClick={() => handleSelect(option.value)}
                     className={`selection-card text-left transition-all ${
                       selected === option.value ? "selected" : ""
-                    }`}
+                    } ${sensitivityMode && option.value === suggestedOption ? "border-primary/40" : ""}`}
                   >
-                    <p className="font-display text-lg text-foreground">{option.label}</p>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="font-display text-lg text-foreground">{option.label}</p>
+                      {sensitivityMode && option.value === suggestedOption && (
+                        <span className="text-[10px] tracking-[0.2em] uppercase text-amber font-body">
+                          Recommended
+                        </span>
+                      )}
+                    </div>
                     <p className="text-xs text-muted-foreground font-body mt-1">{option.description}</p>
                   </motion.button>
                 ))}

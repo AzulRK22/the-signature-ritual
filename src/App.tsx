@@ -5,9 +5,12 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { JourneyProvider } from "@/context/JourneyContext";
 import { AnimatePresence } from "framer-motion";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { HelmetProvider } from "react-helmet-async";
+import { Analytics } from "@vercel/analytics/react";
+import { useLocation } from "react-router-dom";
+import { trackEvent } from "@/lib/analytics";
 
 const Landing = lazy(() => import("./pages/Landing"));
 const SenseMe = lazy(() => import("./pages/SenseMe"));
@@ -23,6 +26,32 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
 
+const stageNameByPath: Record<string, string> = {
+  "/": "landing",
+  "/sense-me": "sense-me",
+  "/decode-me": "decode-me",
+  "/scent-mirror": "scent-mirror",
+  "/skin-scent-fit": "skin-scent-fit",
+  "/signature-ritual": "signature-ritual",
+  "/signature": "signature",
+  "/aura-card": "aura-card",
+  "/grow-with-me": "grow-with-me",
+  "/refill": "refill",
+};
+
+function JourneyAnalytics() {
+  const location = useLocation();
+
+  useEffect(() => {
+    trackEvent("journey_stage_viewed", {
+      path: location.pathname,
+      stage: stageNameByPath[location.pathname] ?? "unknown",
+    });
+  }, [location.pathname]);
+
+  return null;
+}
+
 const App = () => (
   <ErrorBoundary>
     <HelmetProvider>
@@ -32,6 +61,8 @@ const App = () => (
           <Sonner />
           <JourneyProvider>
             <BrowserRouter>
+              <Analytics />
+              <JourneyAnalytics />
               <AnimatePresence mode="wait">
                 <Suspense fallback={<div>Loading...</div>}>
                   <Routes>

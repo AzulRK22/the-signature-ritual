@@ -6,11 +6,18 @@ import ProgressBar from "@/components/ProgressBar";
 import { useJourney } from "@/context/JourneyContext";
 import { skinFitSteps, SkinFitAnswers, getFitInsights } from "@/data/mockData";
 
+function getInitialStep(answers: Partial<SkinFitAnswers>) {
+  const nextIndex = skinFitSteps.findIndex((step) => !answers[step.key]);
+  return nextIndex === -1 ? skinFitSteps.length - 1 : nextIndex;
+}
+
 export default function SkinScentFit() {
   const navigate = useNavigate();
   const { skinFit, setSkinFitAnswer, recommendations, profile } = useJourney();
-  const [step, setStep] = useState(0);
-  const [showInsights, setShowInsights] = useState(false);
+  const [step, setStep] = useState(() => getInitialStep(skinFit));
+  const [showInsights, setShowInsights] = useState(() =>
+    skinFitSteps.every((candidate) => Boolean(skinFit[candidate.key])),
+  );
 
   if (!profile || recommendations.length === 0) {
     navigate("/sense-me");

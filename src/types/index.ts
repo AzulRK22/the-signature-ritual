@@ -129,6 +129,15 @@ export interface WardrobeSlots {
 
 // ─── Journey State ──────────────────────────────────────────────────
 
+export type EmailCaptureSource = "landing" | "refill";
+
+export interface JourneyEmailLead {
+  address: string;
+  consent: boolean;
+  source: EmailCaptureSource;
+  capturedAt: string;
+}
+
 export interface JourneyState {
   answers: Partial<OnboardingAnswers>;
   skinFit: Partial<SkinFitAnswers>;
@@ -136,8 +145,16 @@ export interface JourneyState {
   recommendations: Fragrance[];
   signatureScent: Fragrance | null;
   wardrobe: Record<string, Fragrance | null>;
+  emailLead: JourneyEmailLead | null;
+  sensitivityMode: boolean;
   setAnswer: (key: keyof OnboardingAnswers, value: string) => void;
   setSkinFitAnswer: (key: keyof SkinFitAnswers, value: string) => void;
+  setSensitivityMode: (value: boolean) => void;
+  saveEmailLead: (
+    address: string,
+    source: EmailCaptureSource,
+    consent: boolean,
+  ) => void;
   computeProfile: () => ScentProfile;
   selectSignature: (fragrance: Fragrance) => void;
   reset: () => void;

@@ -39,6 +39,10 @@ import type {
 import { scentProfiles } from "@/data/profiles";
 import { fragrances } from "@/data/fragrances";
 
+interface MatchProfileOptions {
+  sensitivityMode?: boolean;
+}
+
 // ─── Mood → Profile Mapping ────────────────────────────────────────
 // Each mood value maps to profiles in priority order (index 0 = strongest fit).
 
@@ -79,7 +83,10 @@ const presenceMap: Record<string, string[]> = {
  * Scoring: each mapping array awards (3 – index) points per match.
  * The profile with the highest total score wins.
  */
-export function matchProfile(answers: OnboardingAnswers): ScentProfile {
+export function matchProfile(
+  answers: OnboardingAnswers,
+  options: MatchProfileOptions = {},
+): ScentProfile {
   const scoring: Record<string, number> = {};
   scentProfiles.forEach((p) => (scoring[p.id] = 0));
 
@@ -88,6 +95,24 @@ export function matchProfile(answers: OnboardingAnswers): ScentProfile {
       scoring[id] = (scoring[id] || 0) + (3 - i);
     });
   });
+
+  if (options.sensitivityMode) {
+    scoring["clean-aura"] += 2;
+    scoring["soft-power"] += 2;
+    scoring["quiet-gold"] += 1;
+
+    if (answers.intensity === "soft" || answers.intensity === "balanced") {
+      scoring["clean-aura"] += 1;
+      scoring["soft-power"] += 1;
+    }
+
+    if (answers.familiarity === "beginner" || answers.familiarity === "curious") {
+      scoring["clean-aura"] += 1;
+      scoring["quiet-gold"] += 1;
+      scoring["midnight-presence"] -= 1;
+      scoring["velvet-heat"] -= 1;
+    }
+  }
 
   const best = Object.entries(scoring).sort((a, b) => b[1] - a[1])[0][0];
   return scentProfiles.find((p) => p.id === best) || scentProfiles[0];
