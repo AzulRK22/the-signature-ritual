@@ -22,6 +22,8 @@ export interface AuraConfig {
   };
 }
 
+export type AuraScaleKey = keyof AuraConfig["scales"];
+
 // ─── Scent Identity Profile ─────────────────────────────────────────
 
 export interface ScentProfile {
@@ -146,6 +148,20 @@ export interface SignatureFeedback {
   submittedAt: string;
 }
 
+export interface JourneyAchievement {
+  id: string;
+  title: string;
+  description: string;
+  unlocked: boolean;
+}
+
+export interface JourneyLoyaltyStatus {
+  level: string;
+  points: number;
+  nextLevelPoints: number;
+  progress: number;
+}
+
 export interface JourneyState {
   answers: Partial<OnboardingAnswers>;
   skinFit: Partial<SkinFitAnswers>;
@@ -153,12 +169,18 @@ export interface JourneyState {
   recommendations: Fragrance[];
   signatureScent: Fragrance | null;
   wardrobe: Record<string, Fragrance | null>;
+  auraScales: AuraConfig["scales"] | null;
   emailLead: JourneyEmailLead | null;
   signatureFeedback: SignatureFeedback | null;
+  achievements: JourneyAchievement[];
+  journeyProgress: number;
+  loyaltyStatus: JourneyLoyaltyStatus;
   sensitivityMode: boolean;
   setAnswer: (key: keyof OnboardingAnswers, value: string) => void;
   setSkinFitAnswer: (key: keyof SkinFitAnswers, value: string) => void;
   setSensitivityMode: (value: boolean) => void;
+  setAuraScale: (key: AuraScaleKey, value: number) => void;
+  resetAuraScales: () => void;
   saveEmailLead: (
     address: string,
     source: EmailCaptureSource,
@@ -168,6 +190,7 @@ export interface JourneyState {
     sentiment: SignatureFeedbackSentiment,
     note: string,
   ) => void;
+  updateWardrobeSlot: (slot: string, fragrance: Fragrance) => void;
   computeProfile: () => ScentProfile;
   selectSignature: (fragrance: Fragrance) => void;
   reset: () => void;

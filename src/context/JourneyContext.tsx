@@ -16,6 +16,7 @@ import type {
   EmailCaptureSource,
   SignatureFeedback,
   SignatureFeedbackSentiment,
+  AuraScaleKey,
 } from "@/types";
 import {
   matchProfile,
@@ -25,6 +26,7 @@ import {
 import { scentProfiles } from "@/data/profiles";
 import { fragrances } from "@/data/fragrances";
 import { trackEvent } from "@/lib/analytics";
+import { getJourneyGamification } from "@/lib/journeyGamification";
 
 const JOURNEY_STORAGE_KEY = "signature-ritual-journey";
 
@@ -35,6 +37,7 @@ interface JourneySnapshot {
   recommendationIds: string[];
   signatureScentId: string | null;
   wardrobeIds: Record<string, string | null>;
+  auraScales: ScentProfile["aura"]["scales"] | null;
   emailLead: JourneyEmailLead | null;
   signatureFeedback: SignatureFeedback | null;
   sensitivityMode: boolean;
@@ -89,6 +92,9 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       ]),
     ),
   );
+  const [auraScales, setAuraScales] = useState<ScentProfile["aura"]["scales"] | null>(
+    initialSnapshot?.auraScales ?? null,
+  );
   const [emailLead, setEmailLead] = useState<JourneyEmailLead | null>(
     initialSnapshot?.emailLead ?? null,
   );
@@ -98,6 +104,16 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [sensitivityMode, setSensitivityModeState] = useState<boolean>(
     initialSnapshot?.sensitivityMode ?? false,
   );
+  const { achievements, journeyProgress, loyaltyStatus } = getJourneyGamification({
+    answers,
+    skinFit,
+    profile,
+    signatureScent,
+    wardrobe,
+    auraScales,
+    emailLead,
+    signatureFeedback,
+  });
 
   useEffect(() => {
     if (!initialSnapshot) {
@@ -125,6 +141,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
       wardrobeIds: Object.fromEntries(
         Object.entries(wardrobe).map(([key, fragrance]) => [key, fragrance?.id ?? null]),
       ),
+      auraScales,
       emailLead,
       signatureFeedback,
       sensitivityMode,
@@ -138,6 +155,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     recommendations,
     signatureScent,
     wardrobe,
+    auraScales,
     emailLead,
     signatureFeedback,
     sensitivityMode,
@@ -163,6 +181,35 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     setSensitivityModeState(value);
     trackEvent("sensitivity_mode_toggled", { enabled: value });
   }, []);
+
+  const setAuraScale = useCallback(
+    (key: AuraScaleKey, value: number) => {
+      setAuraScales((current) => {
+        const baseScales = current ?? profile?.aura.scales;
+        if (!baseScales) {
+          return current;
+        }
+
+        trackEvent("scent_mirror_scale_adjusted", {
+          scale: key,
+          value,
+        });
+
+        return {
+          ...baseScales,
+          [key]: value,
+        };
+      });
+    },
+    [profile],
+  );
+
+  const resetAuraScales = useCallback(() => {
+    setAuraScales(null);
+    trackEvent("scent_mirror_scales_reset", {
+      profile_id: profile?.id ?? "unknown",
+    });
+  }, [profile]);
 
   const saveEmailLead = useCallback(
     (address: string, source: EmailCaptureSource, consent: boolean) => {
@@ -203,6 +250,23 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     [signatureScent],
   );
 
+  const updateWardrobeSlot = useCallback((slot: string, fragrance: Fragrance) => {
+    setWardrobe((current) => ({
+      ...current,
+      [slot]: fragrance,
+    }));
+
+    if (slot === "signature") {
+      setSignatureScent(fragrance);
+    }
+
+    trackEvent("wardrobe_slot_updated", {
+      slot,
+      fragrance_id: fragrance.id,
+      fragrance_name: fragrance.name,
+    });
+  }, []);
+
   const computeProfile = useCallback(() => {
     const fullAnswers = answers as OnboardingAnswers;
     const matchedProfile = matchProfile(fullAnswers, { sensitivityMode });
@@ -210,6 +274,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
 
     setProfile(matchedProfile);
     setRecommendations(matchedRecommendations);
+    setAuraScales(null);
     trackEvent("profile_computed", {
       profile_id: matchedProfile.id,
       sensitivity_mode: sensitivityMode,
@@ -239,6 +304,7 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     setRecommendations([]);
     setSignatureScent(null);
     setWardrobe({});
+    setAuraScales(null);
     setEmailLead(null);
     setSignatureFeedback(null);
     setSensitivityModeState(false);
@@ -259,14 +325,21 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
         recommendations,
         signatureScent,
         wardrobe,
+        auraScales,
         emailLead,
         signatureFeedback,
+        achievements,
+        journeyProgress,
+        loyaltyStatus,
         sensitivityMode,
         setAnswer,
         setSkinFitAnswer,
         setSensitivityMode,
+        setAuraScale,
+        resetAuraScales,
         saveEmailLead,
         saveSignatureFeedback,
+        updateWardrobeSlot,
         computeProfile,
         selectSignature,
         reset,

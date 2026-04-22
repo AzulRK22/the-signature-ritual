@@ -2,7 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
-import { Fragrance } from "@/data/mockData";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { fragrances } from "@/data/fragrances";
+import type { Fragrance } from "@/types";
 
 const categories = [
   { key: "signature", label: "Your Signature", icon: "✦", occasion: "Your anchor — the scent that defines your presence" },
@@ -12,7 +15,21 @@ const categories = [
   { key: "comfort", label: "Comfort · Personal", icon: "◠", occasion: "Intimate warmth, personal sanctuary" },
 ];
 
-function WardrobeSlot({ label, icon, fragrance, occasion }: { label: string; icon: string; fragrance: Fragrance | null; occasion: string }) {
+function WardrobeSlot({
+  label,
+  icon,
+  fragrance,
+  occasion,
+  alternatives,
+  onSelect,
+}: {
+  label: string;
+  icon: string;
+  fragrance: Fragrance | null;
+  occasion: string;
+  alternatives: Fragrance[];
+  onSelect: (fragrance: Fragrance) => void;
+}) {
   return (
     <div className="luxury-card">
       <div className="flex items-center gap-3 mb-3">
@@ -36,13 +53,44 @@ function WardrobeSlot({ label, icon, fragrance, occasion }: { label: string; ico
         <p className="text-sm text-muted-foreground italic font-display">Awaiting discovery…</p>
       )}
       <p className="text-xs text-muted-foreground/70 font-body mt-3 italic">{occasion}</p>
+      {alternatives.length > 0 && (
+        <div className="mt-4">
+          <p className="text-[10px] tracking-[0.2em] uppercase text-muted-foreground font-body mb-2">
+            Swap Options
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {alternatives.map((option) => (
+              <button
+                key={option.id}
+                type="button"
+                onClick={() => onSelect(option)}
+                className={`text-xs px-3 py-1 rounded-full border transition-colors ${
+                  fragrance?.id === option.id
+                    ? "border-primary/60 text-amber"
+                    : "border-border/40 text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {option.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default function GrowWithMe() {
   const navigate = useNavigate();
-  const { wardrobe, signatureScent } = useJourney();
+  const {
+    wardrobe,
+    signatureScent,
+    recommendations,
+    updateWardrobeSlot,
+    achievements,
+    journeyProgress,
+    loyaltyStatus,
+  } = useJourney();
 
   if (!signatureScent) {
     navigate("/sense-me");
@@ -67,6 +115,44 @@ export default function GrowWithMe() {
             </p>
           </motion.div>
 
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className="luxury-card mb-8"
+          >
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 mb-5">
+              <div>
+                <p className="text-xs tracking-[0.3em] uppercase text-amber font-body mb-2">
+                  Ritual Progress
+                </p>
+                <h2 className="font-display text-2xl text-foreground mb-1">
+                  {loyaltyStatus.level} Level
+                </h2>
+                <p className="text-sm text-muted-foreground font-body">
+                  {loyaltyStatus.points} points earned through real scent milestones.
+                </p>
+              </div>
+              <div className="min-w-full lg:min-w-[320px]">
+                <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <span>Journey Completion</span>
+                  <span>{journeyProgress}%</span>
+                </div>
+                <Progress value={journeyProgress} className="h-2 bg-secondary/60" />
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              {achievements
+                .filter((achievement) => achievement.unlocked)
+                .map((achievement) => (
+                  <Badge key={achievement.id} variant="outline" className="border-primary/30 text-amber">
+                    {achievement.title}
+                  </Badge>
+                ))}
+            </div>
+          </motion.div>
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {categories.map((cat, i) => (
               <motion.div
@@ -80,6 +166,12 @@ export default function GrowWithMe() {
                   icon={cat.icon}
                   fragrance={wardrobe[cat.key] as Fragrance | null}
                   occasion={cat.occasion}
+                  alternatives={
+                    cat.key === "signature"
+                      ? recommendations
+                      : fragrances.filter((fragrance) => fragrance.wardrobeCategory === cat.key)
+                  }
+                  onSelect={(fragrance) => updateWardrobeSlot(cat.key, fragrance)}
                 />
               </motion.div>
             ))}

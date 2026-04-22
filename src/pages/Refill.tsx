@@ -6,10 +6,20 @@ import { useJourney } from "@/context/JourneyContext";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { trackEvent } from "@/lib/analytics";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
 
 export default function Refill() {
   const navigate = useNavigate();
-  const { signatureScent, reset, emailLead, saveEmailLead } = useJourney();
+  const {
+    signatureScent,
+    reset,
+    emailLead,
+    saveEmailLead,
+    achievements,
+    loyaltyStatus,
+    journeyProgress,
+  } = useJourney();
   const { toast } = useToast();
   const [email, setEmail] = useState(emailLead?.address ?? "");
   const [consent, setConsent] = useState(emailLead?.consent ?? true);
@@ -94,10 +104,23 @@ export default function Refill() {
               <p className="text-sm text-muted-foreground font-body mb-4">
                 Every discovery builds your scent intelligence. Unlock exclusive access, early releases, and personalized curation.
               </p>
-              <div className="intensity-bar mb-2">
-                <div className="intensity-bar-fill" style={{ width: "35%" }} />
+              <Progress value={loyaltyStatus.progress} className="h-2 mb-2 bg-secondary/60" />
+              <p className="text-xs text-muted-foreground mb-4">
+                {loyaltyStatus.level} Level · {loyaltyStatus.points} / {loyaltyStatus.nextLevelPoints} points
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {achievements
+                  .filter((achievement) => achievement.unlocked)
+                  .slice(0, 4)
+                  .map((achievement) => (
+                    <Badge key={achievement.id} variant="outline" className="border-primary/30 text-amber">
+                      {achievement.title}
+                    </Badge>
+                  ))}
               </div>
-              <p className="text-xs text-muted-foreground">Explorer Level · 350 / 1000 points</p>
+              <p className="text-xs text-muted-foreground mt-4">
+                Journey completion: {journeyProgress}%
+              </p>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="luxury-card">

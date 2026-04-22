@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { useState, useCallback } from "react";
 import PageTransition from "@/components/PageTransition";
 import { useJourney } from "@/context/JourneyContext";
+import { Slider } from "@/components/ui/slider";
 
 const scaleLabels = [
   { key: "intimate", left: "Intimate", right: "Expressive" },
@@ -13,7 +14,7 @@ const scaleLabels = [
 
 export default function ScentMirror() {
   const navigate = useNavigate();
-  const { profile } = useJourney();
+  const { profile, auraScales, setAuraScale, resetAuraScales } = useJourney();
   const [hoverIntensity, setHoverIntensity] = useState(0);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -29,6 +30,14 @@ export default function ScentMirror() {
   }
 
   const { aura } = profile;
+  const displayScales = auraScales ?? aura.scales;
+  const averageScale =
+    Object.values(displayScales).reduce((total, value) => total + value, 0) /
+    Object.values(displayScales).length;
+  const displayIntensity = Math.min(
+    0.95,
+    Math.max(0.35, (aura.intensity + averageScale / 100) / 2),
+  );
 
   return (
     <PageTransition>
@@ -81,7 +90,7 @@ export default function ScentMirror() {
             <motion.div
               className="absolute inset-[30%] rounded-full"
               style={{
-                background: `radial-gradient(circle, hsl(${aura.primaryColor} / ${0.3 + aura.intensity * 0.2}), hsl(${aura.secondaryColor} / 0.1) 80%, transparent)`,
+                background: `radial-gradient(circle, hsl(${aura.primaryColor} / ${0.2 + displayIntensity * 0.35}), hsl(${aura.secondaryColor} / 0.1) 80%, transparent)`,
               }}
               animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
@@ -161,16 +170,30 @@ export default function ScentMirror() {
                     <span>{left}</span>
                     <span>{right}</span>
                   </div>
-                  <div className="intensity-bar w-full">
-                    <motion.div
-                      className="intensity-bar-fill"
-                      initial={{ width: 0 }}
-                      animate={{ width: `${aura.scales[key]}%` }}
-                      transition={{ delay: 1 + scaleLabels.findIndex(s => s.key === key) * 0.15, duration: 0.8 }}
-                    />
+                  <div className="flex items-center gap-4">
+                    <div className="flex-1">
+                      <Slider
+                        value={[displayScales[key]]}
+                        min={0}
+                        max={100}
+                        step={1}
+                        onValueChange={([value]) => setAuraScale(key, value)}
+                      />
+                    </div>
+                    <span className="text-xs text-amber w-8 text-right">
+                      {displayScales[key]}
+                    </span>
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-xs text-muted-foreground font-body">
+                Tune the mirror until it feels like your real aura, not just the system's first read.
+              </p>
+              <button onClick={resetAuraScales} className="btn-outline-luxury text-xs">
+                Reset Scales
+              </button>
             </div>
           </motion.div>
 

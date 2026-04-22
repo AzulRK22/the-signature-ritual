@@ -8,6 +8,7 @@ import { scentProfiles } from "@/data/profiles";
 import { fragrances } from "@/data/fragrances";
 import type { OnboardingAnswers } from "@/types";
 import { getSensitivityAssistOption } from "@/lib/sensitivity";
+import { getJourneyGamification } from "@/lib/journeyGamification";
 
 describe("Recommendation Engine", () => {
   describe("matchProfile", () => {
@@ -99,6 +100,60 @@ describe("Recommendation Engine", () => {
       expect(topMatch).toBeDefined();
       expect(topMatch?.fragrance.id).toBeDefined();
       expect(topMatch?.scores.signature).toBeGreaterThanOrEqual(75);
+    });
+  });
+
+  describe("getJourneyGamification", () => {
+    it("should unlock progress and achievements from meaningful milestones", () => {
+      const profile = scentProfiles[0];
+      const signatureScent = fragrances.find((fragrance) => fragrance.id === profile.fragranceIds[0])!;
+      const wardrobe = {
+        signature: signatureScent,
+        everyday: fragrances.find((fragrance) => fragrance.id === "suede-lumiere") ?? null,
+        work: fragrances.find((fragrance) => fragrance.id === "iris-voile") ?? null,
+        evening: fragrances.find((fragrance) => fragrance.id === "velvet-oud") ?? null,
+        comfort: fragrances.find((fragrance) => fragrance.id === "santal-dore") ?? null,
+      };
+
+      const result = getJourneyGamification({
+        answers: { mood: "calm" },
+        skinFit: {
+          skinType: "normal",
+          sensitivity: "normal",
+          longevity: "moderate",
+          projection: "moderate",
+          climate: "temperate",
+          timeOfDay: "day",
+        },
+        profile,
+        signatureScent,
+        wardrobe,
+        auraScales: { ...profile.aura.scales, calm: 40 },
+        emailLead: {
+          address: "test@example.com",
+          consent: true,
+          source: "landing",
+          capturedAt: new Date().toISOString(),
+        },
+        signatureFeedback: {
+          sentiment: "yes",
+          note: "Strong fit",
+          submittedAt: new Date().toISOString(),
+        },
+      });
+
+      expect(result.journeyProgress).toBeGreaterThan(50);
+      expect(result.loyaltyStatus.points).toBeGreaterThan(0);
+      expect(
+        result.achievements.some(
+          (achievement) => achievement.id === "aura-alchemist" && achievement.unlocked,
+        ),
+      ).toBe(true);
+      expect(
+        result.achievements.some(
+          (achievement) => achievement.id === "wardrobe-curator" && achievement.unlocked,
+        ),
+      ).toBe(true);
     });
   });
 });
