@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 import type {
   OnboardingAnswers,
   SkinFitAnswers,
@@ -28,42 +28,42 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [signatureScent, setSignatureScent] = useState<Fragrance | null>(null);
   const [wardrobe, setWardrobe] = useState<Record<string, Fragrance | null>>({});
 
-  const setAnswer = (key: keyof OnboardingAnswers, value: string) => {
+  const setAnswer = useCallback((key: keyof OnboardingAnswers, value: string) => {
     setAnswers((prev) => ({ ...prev, [key]: value }));
-  };
+  }, []);
 
-  const setSkinFitAnswer = (key: keyof SkinFitAnswers, value: string) => {
+  const setSkinFitAnswer = useCallback((key: keyof SkinFitAnswers, value: string) => {
     setSkinFit((prev) => ({ ...prev, [key]: value }));
-  };
+  }, []);
 
-  const computeProfile = () => {
+  const computeProfile = useCallback(() => {
     const fullAnswers = answers as OnboardingAnswers;
     const p = matchProfile(fullAnswers);
     setProfile(p);
     setRecommendations(getProfileFragrances(p));
     return p;
-  };
+  }, [answers]);
 
-  const selectSignature = (fragrance: Fragrance) => {
+  const selectSignature = useCallback((fragrance: Fragrance) => {
     setSignatureScent(fragrance);
     if (profile) {
       setWardrobe(buildWardrobe(fragrance.id, profile));
     }
-  };
+  }, [profile]);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setAnswers({});
     setSkinFit({});
     setProfile(null);
     setRecommendations([]);
     setSignatureScent(null);
     setWardrobe({});
-  };
+  }, []);
 
   /** Quick-fill answers for demo mode, then navigate to decode-me */
-  const startDemo = () => {
+  const startDemo = useCallback(() => {
     setAnswers(DEMO_ANSWERS);
-  };
+  }, []);
 
   return (
     <JourneyContext.Provider

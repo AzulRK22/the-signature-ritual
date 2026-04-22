@@ -31,7 +31,7 @@ export default function DecodeMe() {
       });
     }, 1800);
     return () => clearInterval(interval);
-  }, []);
+  }, [computeProfile, navigate]);
 
   return (
     <PageTransition>

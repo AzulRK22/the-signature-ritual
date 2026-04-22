@@ -232,6 +232,42 @@ Each fragrance includes: name, brand, scent family, key notes, intensity (1–5)
 | Icons | Lucide React |
 | State | React Context |
 | Components | shadcn/ui (customized) |
+| SEO | React Helmet Async |
+| Internationalization | react-i18next |
+| Error Monitoring | Sentry |
+| Testing | Vitest |
+
+---
+
+## Recent Improvements
+
+### Performance & Optimization
+- **Lazy Loading**: Implemented React.lazy() for all routes, reducing initial bundle size with code splitting.
+- **Memoization**: Added useCallback to context functions to prevent unnecessary re-renders.
+- **Error Boundaries**: Global error handling with user-friendly fallback UI.
+
+### Accessibility
+- Enhanced keyboard navigation for interactive components (e.g., FragranceCard with role="button" and aria-pressed).
+- Added descriptive alt texts to images for screen readers.
+- Improved ARIA attributes for better assistive technology support.
+
+### SEO & Meta Management
+- Integrated React Helmet Async for dynamic meta tags on each page.
+- Added title, description, and keywords for better search engine visibility.
+
+### Internationalization (i18n)
+- Set up react-i18next for multi-language support.
+- Prepared translation files for English and Spanish (expandable to more languages).
+- Applied translations to key UI elements.
+
+### Monitoring & Error Tracking
+- Configured Sentry for production error monitoring and performance tracking.
+- Includes session replay and tracing for debugging.
+
+### Testing Expansion
+- Added comprehensive tests for the recommendation engine logic.
+- Covers profile matching and fragrance retrieval functions.
+- Improved test coverage for core business logic.
 
 ---
 

@@ -16,6 +16,15 @@ export default function FragranceCard({ fragrance, whyFits, onSelect, selected, 
       whileHover={{ scale: 1.02 }}
       className={`luxury-card cursor-pointer ${selected ? "border-primary/60 glow-amber-soft" : ""} ${large ? "p-8" : ""}`}
       onClick={onSelect}
+      role="button"
+      aria-pressed={selected}
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onSelect?.();
+        }
+      }}
     >
       {/* Color accent bar */}
       <div

@@ -1,13 +1,21 @@
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Helmet } from "react-helmet-async";
+import { useTranslation } from "react-i18next";
 import PageTransition from "@/components/PageTransition";
 import heroImage from "@/assets/hero-fragrance.jpg";
 
 export default function Landing() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <PageTransition>
+      <Helmet>
+        <title>The Signature Experience - Luxury Fragrance Discovery</title>
+        <meta name="description" content="Transform fragrance discovery from hype to signature. A luxury fragrance confidence system for L'Oréal Luxe." />
+        <meta name="keywords" content="fragrance, luxury, signature, scent, L'Oréal" />
+      </Helmet>
       <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-obsidian" />
         <div className="absolute inset-0 gradient-radial-amber opacity-60" />
@@ -18,7 +26,7 @@ export default function Landing() {
           transition={{ duration: 2, ease: "easeOut" }}
           className="absolute inset-0"
         >
-          <img src={heroImage} alt="" className="w-full h-full object-cover" />
+          <img src={heroImage} alt="Elegant fragrance bottle with amber glow" className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </motion.div>
 
@@ -45,9 +53,7 @@ export default function Landing() {
             transition={{ delay: 0.5, duration: 1 }}
             className="font-display text-5xl md:text-7xl font-light text-foreground leading-[1.1] mb-4"
           >
-            The Signature
-            <br />
-            <span className="text-amber italic">Experience</span>
+            {t("Welcome to The Signature Experience")}
           </motion.h1>
 
           <motion.p
@@ -56,7 +62,7 @@ export default function Landing() {
             transition={{ delay: 0.9, duration: 0.8 }}
             className="text-lg md:text-xl font-display italic text-muted-foreground mb-2"
           >
-            From hype to signature
+            {t("From hype to signature.")}
           </motion.p>
 
           <motion.p
