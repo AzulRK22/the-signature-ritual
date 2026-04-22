@@ -515,5 +515,5 @@ This is a **prototype built with mock data** for demonstration and competition p
 
 <p align="center">
   <em>The Signature Experience — From hype to signature.</em><br/>
-  <em>Built for L'Oréal Luxe · Brandstorm 2025</em>
+  <em>Built for L'Oréal Luxe · Brandstorm 2026</em>
 </p>
