@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
@@ -19,7 +19,7 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
+    console.error("Error caught by boundary:", error, errorInfo);
   }
 
   render() {
@@ -28,7 +28,9 @@ class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen flex items-center justify-center bg-obsidian text-white">
           <div className="text-center">
             <h1 className="text-2xl font-bold mb-4">Algo salió mal</h1>
-            <p className="mb-4">Por favor, recarga la página o intenta de nuevo.</p>
+            <p className="mb-4">
+              Por favor, recarga la página o intenta de nuevo.
+            </p>
             <button
               onClick={() => window.location.reload()}
               className="px-4 py-2 bg-gold text-black rounded"

@@ -43,6 +43,7 @@
 The Signature Experience is a **phygital fragrance confidence system** that guides consumers from hype-driven fragrance choices to a signature scent that truly feels like them.
 
 It combines:
+
 - **Identity-first profiling** — understand your scent language before choosing a bottle
 - **Scent Mirror** — visualize your fragrance identity as a living aura
 - **Skin & Scent Fit** — precision recommendations based on skin type, climate, and lifestyle
@@ -65,13 +66,13 @@ Fragrance is the most personal luxury. Yet most consumers choose it through hype
 
 ### The Fragrance Confidence Gap
 
-| Symptom | Root Cause |
-|---------|-----------|
-| Blind buying based on TikTok trends | No personal identity framework |
-| "Dupe culture" eroding brand value | Price-led choices without fit understanding |
-| Fragrance regret and unused bottles | No intelligent matching layer |
-| Intimidation in-store | No guided discovery pathway |
-| One-and-done purchases | No wardrobe or continuity logic |
+| Symptom                             | Root Cause                                  |
+| ----------------------------------- | ------------------------------------------- |
+| Blind buying based on TikTok trends | No personal identity framework              |
+| "Dupe culture" eroding brand value  | Price-led choices without fit understanding |
+| Fragrance regret and unused bottles | No intelligent matching layer               |
+| Intimidation in-store               | No guided discovery pathway                 |
+| One-and-done purchases              | No wardrobe or continuity logic             |
 
 Most consumers don't lack access to fragrance. They lack **confidence** in choosing fragrance as a true extension of identity.
 
@@ -79,15 +80,15 @@ Most consumers don't lack access to fragrance. They lack **confidence** in choos
 
 ## Why This Is Different
 
-| Traditional Discovery | The Signature Experience |
-|----------------------|------------------------|
-| Product-first | Identity-first |
-| "Try this bestseller" | "This is your scent language" |
-| Generic recommendations | Profile-matched, skin-fitted |
-| Single purchase | Wardrobe + continuity |
-| Passive browsing | Guided ritual |
-| No visualization | Scent Mirror + Aura Card |
-| No sustainability angle | Refill-first, less waste |
+| Traditional Discovery   | The Signature Experience      |
+| ----------------------- | ----------------------------- |
+| Product-first           | Identity-first                |
+| "Try this bestseller"   | "This is your scent language" |
+| Generic recommendations | Profile-matched, skin-fitted  |
+| Single purchase         | Wardrobe + continuity         |
+| Passive browsing        | Guided ritual                 |
+| No visualization        | Scent Mirror + Aura Card      |
+| No sustainability angle | Refill-first, less waste      |
 
 ---
 
@@ -103,45 +104,53 @@ Each step builds on the previous — from identity capture to visualization, pre
 
 ## Route Map
 
-| Route | Screen | Purpose |
-|-------|--------|---------|
-| `/` | Landing | Hero, concept entry, CTAs |
-| `/sense-me` | Sense Me | Identity-first onboarding (mood, style, occasion, presence, intensity, familiarity) |
-| `/decode-me` | Decode Me | AI-guided interpretation animation |
-| `/scent-mirror` | Scent Mirror | Interactive aura visualization with identity scales |
-| `/skin-scent-fit` | Skin & Scent Fit | Physiological refinement (skin type, climate, projection) |
-| `/signature-ritual` | Signature Ritual | Guided 3-fragrance comparison with confidence scores |
-| `/signature` | Signature | Emotional result state with hero card |
-| `/aura-card` | Aura Card | Shareable identity card (Story / Square / Wallpaper) |
-| `/grow-with-me` | Grow With Me | Scent wardrobe dashboard with layering guidance |
-| `/refill` | Refill | Sustainability, loyalty, and next-chapter continuity |
+| Route               | Screen           | Purpose                                                                             |
+| ------------------- | ---------------- | ----------------------------------------------------------------------------------- |
+| `/`                 | Landing          | Hero, concept entry, CTAs                                                           |
+| `/sense-me`         | Sense Me         | Identity-first onboarding (mood, style, occasion, presence, intensity, familiarity) |
+| `/decode-me`        | Decode Me        | AI-guided interpretation animation                                                  |
+| `/scent-mirror`     | Scent Mirror     | Interactive aura visualization with identity scales                                 |
+| `/skin-scent-fit`   | Skin & Scent Fit | Physiological refinement (skin type, climate, projection)                           |
+| `/signature-ritual` | Signature Ritual | Guided 3-fragrance comparison with confidence scores                                |
+| `/signature`        | Signature        | Emotional result state with hero card                                               |
+| `/aura-card`        | Aura Card        | Shareable identity card (Story / Square / Wallpaper)                                |
+| `/grow-with-me`     | Grow With Me     | Scent wardrobe dashboard with layering guidance                                     |
+| `/refill`           | Refill           | Sustainability, loyalty, and next-chapter continuity                                |
 
 ---
 
 ## Core Features
 
 ### Sense Me — Identity Onboarding
+
 Premium card-based selector across 6 dimensions. Sensitivity Mode toggle available. No boring forms — every step feels like a luxury ritual.
 
 ### Decode Me — AI Interpretation
-Animated loading state with layered language: *"Interpreting identity signals…"*, *"Moving from preference to signature…"*. Computes profile via weighted scoring.
+
+Animated loading state with layered language: _"Interpreting identity signals…"_, _"Moving from preference to signature…"_. Computes profile via weighted scoring.
 
 ### Scent Mirror
+
 Interactive aura visualization driven by profile data. Hover to shift intensity. Displays identity spectrum scales (intimate↔expressive, calm↔magnetic, soft↔intense, day↔night). Includes Hype Reframing for trend-driven users.
 
 ### Skin & Scent Fit
-6-step physiological questionnaire generating editorial fit insight cards: *"Close-to-skin elegance"*, *"Warm climate adapted"*, *"Recommended: Eau de Parfum"*.
+
+6-step physiological questionnaire generating editorial fit insight cards: _"Close-to-skin elegance"_, _"Warm climate adapted"_, _"Recommended: Eau de Parfum"_.
 
 ### Signature Ritual
+
 3-fragrance guided comparison with **Fragrance Confidence Scores** (Signature Match, Everyday Fit, Evening Presence). Deep-dive panel with scent story, key notes, emotional character, and "Why This Is You" reasoning.
 
 ### Aura Card
+
 Format-switchable (Story / Square / Wallpaper) shareable identity card with animated aura, profile name, mood keywords, and signature scent. Premium social advocacy layer.
 
 ### Grow With Me
+
 Occasion-based wardrobe: Signature, Everyday, Work, Evening, Comfort, Seasonal. Includes layering guidance. Transforms one purchase into a lifestyle system.
 
 ### Refill & Continuity
+
 Refill reminders, loyalty progression, next-chapter re-discovery, and intentional consumption messaging.
 
 ---
@@ -153,7 +162,7 @@ Refill reminders, loyalty progression, next-chapter re-discovery, and intentiona
 ```
 Sense Me Answers → matchProfile() → ScentProfile → getProfileFragrances() → 3 Fragrances
                                                   → buildWardrobe() → 5-slot Wardrobe
-                                                  
+
 Skin Fit Answers → computeConfidenceScores() → Signature %, Everyday %, Evening %
                  → getFitInsights() → Editorial Fit Cards
 ```
@@ -162,11 +171,11 @@ Skin Fit Answers → computeConfidenceScores() → Signature %, Everyday %, Even
 
 The `matchProfile()` function scores each of 6 profiles using three weighted mapping tables:
 
-| Input | Maps To | Weighting |
-|-------|---------|-----------|
-| `mood` | `moodMap` | 3 pts (1st), 2 pts (2nd), 1 pt (3rd) |
-| `style` | `styleMap` | Same |
-| `presence` | `presenceMap` | Same |
+| Input      | Maps To       | Weighting                            |
+| ---------- | ------------- | ------------------------------------ |
+| `mood`     | `moodMap`     | 3 pts (1st), 2 pts (2nd), 1 pt (3rd) |
+| `style`    | `styleMap`    | Same                                 |
+| `presence` | `presenceMap` | Same                                 |
 
 The profile with the highest aggregate score is selected.
 
@@ -181,26 +190,26 @@ The profile with the highest aggregate score is selected.
 
 ### Wardrobe Rules
 
-| Slot | Selection Rule |
-|------|---------------|
-| Signature | User's chosen fragrance |
-| Everyday | First catalogue match with `wardrobeCategory: "everyday"` |
-| Work | First catalogue match with `wardrobeCategory: "work"` |
-| Evening | First catalogue match with `wardrobeCategory: "evening"` |
-| Comfort | First catalogue match with `wardrobeCategory: "comfort"` |
+| Slot      | Selection Rule                                            |
+| --------- | --------------------------------------------------------- |
+| Signature | User's chosen fragrance                                   |
+| Everyday  | First catalogue match with `wardrobeCategory: "everyday"` |
+| Work      | First catalogue match with `wardrobeCategory: "work"`     |
+| Evening   | First catalogue match with `wardrobeCategory: "evening"`  |
+| Comfort   | First catalogue match with `wardrobeCategory: "comfort"`  |
 
 ---
 
 ## Scent Identity Profiles
 
-| Profile | Mood Direction | Aura Colors | Key Traits |
-|---------|---------------|-------------|------------|
-| **Quiet Gold** | Warm, refined | Amber + muted gold | Understated, Intentional |
-| **Midnight Presence** | Dark, magnetic | Deep purple + black | Intense, Mysterious |
-| **Soft Power** | Graceful, composed | Lavender + mauve | Elegant, Certain |
-| **Velvet Heat** | Sensual, warm | Terracotta + amber | Inviting, Bold |
-| **Clean Aura** | Fresh, pure | Teal + ivory | Effortless, Light |
-| **Magnetic Minimalist** | Sharp, modern | Sage + charcoal | Deliberate, Minimal |
+| Profile                 | Mood Direction     | Aura Colors         | Key Traits               |
+| ----------------------- | ------------------ | ------------------- | ------------------------ |
+| **Quiet Gold**          | Warm, refined      | Amber + muted gold  | Understated, Intentional |
+| **Midnight Presence**   | Dark, magnetic     | Deep purple + black | Intense, Mysterious      |
+| **Soft Power**          | Graceful, composed | Lavender + mauve    | Elegant, Certain         |
+| **Velvet Heat**         | Sensual, warm      | Terracotta + amber  | Inviting, Bold           |
+| **Clean Aura**          | Fresh, pure        | Teal + ivory        | Effortless, Light        |
+| **Magnetic Minimalist** | Sharp, modern      | Sage + charcoal     | Deliberate, Minimal      |
 
 ---
 
@@ -210,11 +219,11 @@ The profile with the highest aggregate score is selected.
 
 From 3 fictional luxury houses:
 
-| House | Character | Fragrances |
-|-------|----------|------------|
-| **Maison Lumière** | Warm, luminous | Noir Absolu, Amber Ritual, Iris Voile, Blanc Absolu |
-| **Atelier Doré** | Rich, intimate | Velvet Oud, Dark Bloom, Suède Lumière, Santal Doré |
-| **Noctis** | Dark, architectural | Obsidian Noir, Smoke & Ritual, Cèdre Frais, Terra Cálida |
+| House              | Character           | Fragrances                                               |
+| ------------------ | ------------------- | -------------------------------------------------------- |
+| **Maison Lumière** | Warm, luminous      | Noir Absolu, Amber Ritual, Iris Voile, Blanc Absolu      |
+| **Atelier Doré**   | Rich, intimate      | Velvet Oud, Dark Bloom, Suède Lumière, Santal Doré       |
+| **Noctis**         | Dark, architectural | Obsidian Noir, Smoke & Ritual, Cèdre Frais, Terra Cálida |
 
 Each fragrance includes: name, brand, scent family, key notes, intensity (1–5), best moment, emotional character, wardrobe category, color accent, and concentration.
 
@@ -222,49 +231,55 @@ Each fragrance includes: name, brand, scent family, key notes, intensity (1–5)
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | React 18 + Vite 5 |
-| Language | TypeScript 5 |
-| Styling | Tailwind CSS 3 |
-| Animation | Framer Motion 11 |
-| Routing | React Router 6 |
-| Icons | Lucide React |
-| State | React Context |
-| Components | shadcn/ui (customized) |
-| SEO | React Helmet Async |
-| Internationalization | react-i18next |
-| Error Monitoring | Sentry |
-| Testing | Vitest |
+| Layer                | Technology             |
+| -------------------- | ---------------------- |
+| Framework            | React 18 + Vite 5      |
+| Language             | TypeScript 5           |
+| Styling              | Tailwind CSS 3         |
+| Animation            | Framer Motion 11       |
+| Routing              | React Router 6         |
+| Icons                | Lucide React           |
+| State                | React Context          |
+| Components           | shadcn/ui (customized) |
+| SEO                  | React Helmet Async     |
+| Internationalization | react-i18next          |
+| Error Monitoring     | Sentry                 |
+| Testing              | Vitest                 |
 
 ---
 
 ## Recent Improvements
 
 ### Performance & Optimization
+
 - **Lazy Loading**: Implemented React.lazy() for all routes, reducing initial bundle size with code splitting.
 - **Memoization**: Added useCallback to context functions to prevent unnecessary re-renders.
 - **Error Boundaries**: Global error handling with user-friendly fallback UI.
 
 ### Accessibility
+
 - Enhanced keyboard navigation for interactive components (e.g., FragranceCard with role="button" and aria-pressed).
 - Added descriptive alt texts to images for screen readers.
 - Improved ARIA attributes for better assistive technology support.
 
 ### SEO & Meta Management
+
 - Integrated React Helmet Async for dynamic meta tags on each page.
 - Added title, description, and keywords for better search engine visibility.
 
 ### Internationalization (i18n)
+
 - Set up react-i18next for multi-language support.
 - Prepared translation files for English and Spanish (expandable to more languages).
 - Applied translations to key UI elements.
 
 ### Monitoring & Error Tracking
+
 - Configured Sentry for production error monitoring and performance tracking.
 - Includes session replay and tracing for debugging.
 
 ### Testing Expansion
+
 - Added comprehensive tests for the recommendation engine logic.
 - Covers profile matching and fragrance retrieval functions.
 - Improved test coverage for core business logic.
@@ -330,11 +345,11 @@ A single `JourneyContext` manages the entire user journey:
 
 ```typescript
 interface JourneyState {
-  answers: Partial<OnboardingAnswers>;     // Sense Me inputs
-  skinFit: Partial<SkinFitAnswers>;        // Skin & Scent Fit inputs
-  profile: ScentProfile | null;            // Computed identity profile
-  recommendations: Fragrance[];            // 3 matched fragrances
-  signatureScent: Fragrance | null;        // User's chosen signature
+  answers: Partial<OnboardingAnswers>; // Sense Me inputs
+  skinFit: Partial<SkinFitAnswers>; // Skin & Scent Fit inputs
+  profile: ScentProfile | null; // Computed identity profile
+  recommendations: Fragrance[]; // 3 matched fragrances
+  signatureScent: Fragrance | null; // User's chosen signature
   wardrobe: Record<string, Fragrance | null>; // 5-slot wardrobe
 }
 ```
@@ -347,48 +362,48 @@ State persists through the session. A `reset()` function clears all state for re
 
 ### Color Tokens (HSL)
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--background` | `0 0% 5%` | Page background (obsidian) |
-| `--foreground` | `42 30% 90%` | Primary text (warm ivory) |
-| `--primary` | `36 60% 50%` | Amber accent, CTAs |
-| `--secondary` | `15 30% 35%` | Terracotta details |
-| `--muted` | `0 0% 14%` | Subtle backgrounds |
-| `--amber` | `36 60% 50%` | Highlight color |
-| `--terracotta` | `15 40% 45%` | Warm accent |
-| `--glass` | `0 0% 12%` | Glass-panel backgrounds |
+| Token          | Value        | Usage                      |
+| -------------- | ------------ | -------------------------- |
+| `--background` | `0 0% 5%`    | Page background (obsidian) |
+| `--foreground` | `42 30% 90%` | Primary text (warm ivory)  |
+| `--primary`    | `36 60% 50%` | Amber accent, CTAs         |
+| `--secondary`  | `15 30% 35%` | Terracotta details         |
+| `--muted`      | `0 0% 14%`   | Subtle backgrounds         |
+| `--amber`      | `36 60% 50%` | Highlight color            |
+| `--terracotta` | `15 40% 45%` | Warm accent                |
+| `--glass`      | `0 0% 12%`   | Glass-panel backgrounds    |
 
 ### Typography
 
-| Role | Font | Weights |
-|------|------|---------|
+| Role    | Font               | Weights                 |
+| ------- | ------------------ | ----------------------- |
 | Display | Cormorant Garamond | 300, 400, 500, 600, 700 |
-| Body | Outfit | 200, 300, 400, 500, 600 |
+| Body    | Outfit             | 200, 300, 400, 500, 600 |
 
 ### Component Classes
 
-| Class | Description |
-|-------|------------|
-| `.luxury-card` | Glass-panel card with hover glow |
-| `.selection-card` | Interactive selector with selected state |
-| `.btn-primary-luxury` | Primary CTA with amber glow on hover |
-| `.btn-outline-luxury` | Secondary CTA with border highlight |
-| `.intensity-bar` | Gradient progress bar |
-| `.glass-panel` | Backdrop-blur translucent panel |
-| `.glow-amber` | Ambient amber box-shadow |
+| Class                 | Description                              |
+| --------------------- | ---------------------------------------- |
+| `.luxury-card`        | Glass-panel card with hover glow         |
+| `.selection-card`     | Interactive selector with selected state |
+| `.btn-primary-luxury` | Primary CTA with amber glow on hover     |
+| `.btn-outline-luxury` | Secondary CTA with border highlight      |
+| `.intensity-bar`      | Gradient progress bar                    |
+| `.glass-panel`        | Backdrop-blur translucent panel          |
+| `.glow-amber`         | Ambient amber box-shadow                 |
 
 ---
 
 ## Motion & Animation
 
-| Element | Type | Timing |
-|---------|------|--------|
-| Page transitions | Fade + translateY | 500ms, cubic-bezier |
-| Card selections | Scale + border glow | 300ms |
-| Aura visualization | Continuous scale/opacity | 3–5s loops |
-| Progress bars | Width animation | 600ms ease-out |
-| Loading phrases | Fade in/out sequence | 1800ms interval |
-| Particles | Random drift | 3–5s infinite |
+| Element            | Type                     | Timing              |
+| ------------------ | ------------------------ | ------------------- |
+| Page transitions   | Fade + translateY        | 500ms, cubic-bezier |
+| Card selections    | Scale + border glow      | 300ms               |
+| Aura visualization | Continuous scale/opacity | 3–5s loops          |
+| Progress bars      | Width animation          | 600ms ease-out      |
+| Loading phrases    | Fade in/out sequence     | 1800ms interval     |
+| Particles          | Random drift             | 3–5s infinite       |
 
 All motion is subtle and purposeful. No excessive animation.
 
@@ -443,13 +458,13 @@ open http://localhost:5173
 
 ## Available Scripts
 
-| Script | Command | Description |
-|--------|---------|-------------|
-| Dev server | `npm run dev` | Start Vite dev server |
-| Build | `npm run build` | Production build |
-| Preview | `npm run preview` | Preview production build |
-| Lint | `npm run lint` | ESLint check |
-| Test | `npm run test` | Run Vitest tests |
+| Script     | Command           | Description              |
+| ---------- | ----------------- | ------------------------ |
+| Dev server | `npm run dev`     | Start Vite dev server    |
+| Build      | `npm run build`   | Production build         |
+| Preview    | `npm run preview` | Preview production build |
+| Lint       | `npm run lint`    | ESLint check             |
+| Test       | `npm run test`    | Run Vitest tests         |
 
 ---
 
@@ -472,15 +487,15 @@ open http://localhost:5173
 
 ### Strategic Value
 
-| Dimension | Impact |
-|-----------|--------|
-| **Consumer confidence** | Reduces fragrance anxiety, increases conversion |
-| **Brand differentiation** | No competitor offers identity-first discovery |
-| **Lifetime value** | Wardrobe model creates multi-product relationships |
-| **Sustainability** | Fewer returns, more intentional purchases |
-| **Data intelligence** | Identity profiles create rich consumer insights |
-| **Social advocacy** | Aura Cards drive organic brand awareness |
-| **Retail activation** | Phygital-ready for in-store deployment |
+| Dimension                 | Impact                                             |
+| ------------------------- | -------------------------------------------------- |
+| **Consumer confidence**   | Reduces fragrance anxiety, increases conversion    |
+| **Brand differentiation** | No competitor offers identity-first discovery      |
+| **Lifetime value**        | Wardrobe model creates multi-product relationships |
+| **Sustainability**        | Fewer returns, more intentional purchases          |
+| **Data intelligence**     | Identity profiles create rich consumer insights    |
+| **Social advocacy**       | Aura Cards drive organic brand awareness           |
+| **Retail activation**     | Phygital-ready for in-store deployment             |
 
 ### Market Opportunity
 
@@ -493,13 +508,13 @@ open http://localhost:5173
 
 ## Innovation · Sustainability · Inclusion · Feasibility · Scalability
 
-| Pillar | How We Deliver |
-|--------|---------------|
-| **Innovation** | Scent Mirror visualization, identity-first profiling, Aura Card social layer, Fragrance Confidence Scores |
-| **Sustainability** | Refill-first continuity, wardrobe-over-impulse philosophy, reduced trial waste |
-| **Inclusion** | Non-gendered, sensitivity-aware, beginner-friendly, accessible design |
-| **Feasibility** | Built with production-grade stack, modular architecture, real recommendation logic |
-| **Scalability** | Extensible to real AI, multi-brand, multi-language, in-store phygital activation |
+| Pillar             | How We Deliver                                                                                            |
+| ------------------ | --------------------------------------------------------------------------------------------------------- |
+| **Innovation**     | Scent Mirror visualization, identity-first profiling, Aura Card social layer, Fragrance Confidence Scores |
+| **Sustainability** | Refill-first continuity, wardrobe-over-impulse philosophy, reduced trial waste                            |
+| **Inclusion**      | Non-gendered, sensitivity-aware, beginner-friendly, accessible design                                     |
+| **Feasibility**    | Built with production-grade stack, modular architecture, real recommendation logic                        |
+| **Scalability**    | Extensible to real AI, multi-brand, multi-language, in-store phygital activation                          |
 
 ---
 
@@ -520,26 +535,26 @@ open http://localhost:5173
 
 ### Key Talking Points
 
-- *"This is not a recommendation app — it's a confidence system."*
-- *"The Scent Mirror makes fragrance identity visible for the first time."*
-- *"Confidence scores replace guesswork with clarity."*
-- *"The wardrobe model transforms one purchase into a lifestyle."*
-- *"From hype to signature — that's the journey we're building."*
+- _"This is not a recommendation app — it's a confidence system."_
+- _"The Scent Mirror makes fragrance identity visible for the first time."_
+- _"Confidence scores replace guesswork with clarity."_
+- _"The wardrobe model transforms one purchase into a lifestyle."_
+- _"From hype to signature — that's the journey we're building."_
 
 ---
 
 ## Screenshots
 
-> 📸 *Screenshots and GIF recordings can be added here to showcase each screen.*
+> 📸 _Screenshots and GIF recordings can be added here to showcase each screen._
 
-| Screen | Description |
-|--------|------------|
-| Landing | Hero with amber glow and concept entry |
-| Sense Me | Premium card-based identity selector |
-| Scent Mirror | Interactive aura visualization |
+| Screen           | Description                                   |
+| ---------------- | --------------------------------------------- |
+| Landing          | Hero with amber glow and concept entry        |
+| Sense Me         | Premium card-based identity selector          |
+| Scent Mirror     | Interactive aura visualization                |
 | Signature Ritual | 3-fragrance comparison with confidence scores |
-| Aura Card | Shareable identity card in Story format |
-| Grow With Me | Occasion-based scent wardrobe |
+| Aura Card        | Shareable identity card in Story format       |
+| Grow With Me     | Occasion-based scent wardrobe                 |
 
 ---
 

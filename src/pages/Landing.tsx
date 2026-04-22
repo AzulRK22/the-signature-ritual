@@ -13,8 +13,14 @@ export default function Landing() {
     <PageTransition>
       <Helmet>
         <title>The Signature Experience - Luxury Fragrance Discovery</title>
-        <meta name="description" content="Transform fragrance discovery from hype to signature. A luxury fragrance confidence system for L'Oréal Luxe." />
-        <meta name="keywords" content="fragrance, luxury, signature, scent, L'Oréal" />
+        <meta
+          name="description"
+          content="Transform fragrance discovery from hype to signature. A luxury fragrance confidence system for L'Oréal Luxe."
+        />
+        <meta
+          name="keywords"
+          content="fragrance, luxury, signature, scent, L'Oréal"
+        />
       </Helmet>
       <div className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-obsidian" />
@@ -26,13 +32,20 @@ export default function Landing() {
           transition={{ duration: 2, ease: "easeOut" }}
           className="absolute inset-0"
         >
-          <img src={heroImage} alt="Elegant fragrance bottle with amber glow" className="w-full h-full object-cover" />
+          <img
+            src={heroImage}
+            alt="Elegant fragrance bottle with amber glow"
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />
         </motion.div>
 
         <motion.div
           className="absolute w-96 h-96 rounded-full animate-glow-pulse"
-          style={{ background: "radial-gradient(circle, hsl(36 60% 50% / 0.15), transparent 70%)" }}
+          style={{
+            background:
+              "radial-gradient(circle, hsl(36 60% 50% / 0.15), transparent 70%)",
+          }}
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -71,8 +84,8 @@ export default function Landing() {
             transition={{ delay: 1.1, duration: 0.8 }}
             className="text-sm text-muted-foreground font-body leading-relaxed max-w-md mx-auto mb-10"
           >
-            A luxury fragrance confidence system. Discover the scent that feels like you
-            through identity, intelligent fit, and personal ritual.
+            A luxury fragrance confidence system. Discover the scent that feels
+            like you through identity, intelligent fit, and personal ritual.
           </motion.p>
 
           <motion.div
@@ -81,11 +94,18 @@ export default function Landing() {
             transition={{ delay: 1.4, duration: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <button onClick={() => navigate("/sense-me")} className="btn-primary-luxury">
+            <button
+              onClick={() => navigate("/sense-me")}
+              className="btn-primary-luxury"
+            >
               Begin Your Scent Journey
             </button>
             <button
-              onClick={() => document.getElementById("concept")?.scrollIntoView({ behavior: "smooth" })}
+              onClick={() =>
+                document
+                  .getElementById("concept")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
               className="btn-outline-luxury"
             >
               Explore the Experience
@@ -112,7 +132,9 @@ export default function Landing() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <p className="text-xs tracking-[0.3em] uppercase text-amber font-body mb-4">The Promise</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-amber font-body mb-4">
+              The Promise
+            </p>
             <h2 className="font-display text-3xl md:text-5xl font-light text-foreground mb-6">
               Less guesswork. More meaning.
             </h2>
@@ -139,8 +161,12 @@ export default function Landing() {
                 transition={{ delay: i * 0.1, duration: 0.6 }}
                 className="luxury-card text-center"
               >
-                <h3 className="font-display text-lg text-foreground mb-1">{item.title}</h3>
-                <p className="text-xs text-muted-foreground font-body">{item.desc}</p>
+                <h3 className="font-display text-lg text-foreground mb-1">
+                  {item.title}
+                </h3>
+                <p className="text-xs text-muted-foreground font-body">
+                  {item.desc}
+                </p>
               </motion.div>
             ))}
           </div>

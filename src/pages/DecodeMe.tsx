@@ -40,20 +40,36 @@ export default function DecodeMe() {
           <div className="relative w-40 h-40 mx-auto mb-12">
             <motion.div
               className="absolute inset-0 rounded-full"
-              style={{ background: "radial-gradient(circle, hsl(36 60% 50% / 0.3), transparent 70%)" }}
+              style={{
+                background:
+                  "radial-gradient(circle, hsl(36 60% 50% / 0.3), transparent 70%)",
+              }}
               animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0.8, 0.5] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             />
             <motion.div
               className="absolute inset-4 rounded-full"
-              style={{ background: "radial-gradient(circle, hsl(36 80% 60% / 0.4), transparent 60%)" }}
+              style={{
+                background:
+                  "radial-gradient(circle, hsl(36 80% 60% / 0.4), transparent 60%)",
+              }}
               animate={{ scale: [1.1, 0.9, 1.1], opacity: [0.6, 1, 0.6] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 0.5,
+              }}
             />
             <motion.div
               className="absolute inset-12 rounded-full bg-primary/20"
               animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: 1,
+              }}
             />
           </div>
 

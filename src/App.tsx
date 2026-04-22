@@ -40,7 +40,10 @@ const App = () => (
                     <Route path="/decode-me" element={<DecodeMe />} />
                     <Route path="/scent-mirror" element={<ScentMirror />} />
                     <Route path="/skin-scent-fit" element={<SkinScentFit />} />
-                    <Route path="/signature-ritual" element={<SignatureRitual />} />
+                    <Route
+                      path="/signature-ritual"
+                      element={<SignatureRitual />}
+                    />
                     <Route path="/signature" element={<Signature />} />
                     <Route path="/aura-card" element={<AuraCard />} />
                     <Route path="/grow-with-me" element={<GrowWithMe />} />

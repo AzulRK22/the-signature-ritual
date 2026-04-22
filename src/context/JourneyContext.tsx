@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+} from "react";
 import type {
   OnboardingAnswers,
   SkinFitAnswers,
@@ -6,7 +12,11 @@ import type {
   Fragrance,
   JourneyState,
 } from "@/types";
-import { matchProfile, getProfileFragrances, buildWardrobe } from "@/lib/recommendation";
+import {
+  matchProfile,
+  getProfileFragrances,
+  buildWardrobe,
+} from "@/lib/recommendation";
 
 /** Pre-filled demo journey for quick walkthroughs */
 const DEMO_ANSWERS: OnboardingAnswers = {
@@ -26,15 +36,23 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
   const [profile, setProfile] = useState<ScentProfile | null>(null);
   const [recommendations, setRecommendations] = useState<Fragrance[]>([]);
   const [signatureScent, setSignatureScent] = useState<Fragrance | null>(null);
-  const [wardrobe, setWardrobe] = useState<Record<string, Fragrance | null>>({});
+  const [wardrobe, setWardrobe] = useState<Record<string, Fragrance | null>>(
+    {},
+  );
 
-  const setAnswer = useCallback((key: keyof OnboardingAnswers, value: string) => {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  const setAnswer = useCallback(
+    (key: keyof OnboardingAnswers, value: string) => {
+      setAnswers((prev) => ({ ...prev, [key]: value }));
+    },
+    [],
+  );
 
-  const setSkinFitAnswer = useCallback((key: keyof SkinFitAnswers, value: string) => {
-    setSkinFit((prev) => ({ ...prev, [key]: value }));
-  }, []);
+  const setSkinFitAnswer = useCallback(
+    (key: keyof SkinFitAnswers, value: string) => {
+      setSkinFit((prev) => ({ ...prev, [key]: value }));
+    },
+    [],
+  );
 
   const computeProfile = useCallback(() => {
     const fullAnswers = answers as OnboardingAnswers;
@@ -44,12 +62,15 @@ export function JourneyProvider({ children }: { children: ReactNode }) {
     return p;
   }, [answers]);
 
-  const selectSignature = useCallback((fragrance: Fragrance) => {
-    setSignatureScent(fragrance);
-    if (profile) {
-      setWardrobe(buildWardrobe(fragrance.id, profile));
-    }
-  }, [profile]);
+  const selectSignature = useCallback(
+    (fragrance: Fragrance) => {
+      setSignatureScent(fragrance);
+      if (profile) {
+        setWardrobe(buildWardrobe(fragrance.id, profile));
+      }
+    },
+    [profile],
+  );
 
   const reset = useCallback(() => {
     setAnswers({});
